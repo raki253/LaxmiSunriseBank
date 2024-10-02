@@ -7,6 +7,7 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
 {
     public class EchoRequestModel : SourceRequestModel
     {
-
+        public EchoRequestModel() :base() { }
+        
     }
 }

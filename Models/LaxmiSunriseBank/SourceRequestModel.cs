@@ -2,23 +2,39 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Threading;
 using System.Xml.Serialization;
 
 namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
 {
     public class SourceRequestModel
     {
-        [StringLength(50)]
-        public string? AgentCode { get; set; }
+        public SourceRequestModel()
+        {
+                
+        }
+        public string AgentCode
+        {
+            get { return AgentCode; } 
+            set { AgentCode = "FED001"; }
+        }
+        
+        public string UserId {
+            get { return UserId; }  
+            set { UserId = "FEDERAL1"; }
+        }
 
-        [StringLength(50)]
-        public string? UserId { get; set; }
-
-        [StringLength(50)]
-        public string? AgentSessionId { get; set; }
-
-        [StringLength(150)]
-        public string? Signature { get; set; }
+  
+        public string AgentSessionId {
+            get { return AgentSessionId; }
+            set { AgentSessionId = "1298709"; }
+        }
+      
+        public string Signature
+        {
+            get { return AgentSessionId; }
+            set { AgentSessionId = "7d56439f55beff0d0fcd50bc4d887ca24848b676963126a6d317bbb4f377f701"; }
+        }
     }
 
     /// <summary>
@@ -34,28 +50,46 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
             public Body? Body { get; set; }
         }
 
+         
+        
+    
+
         public class Body
         {
-            [XmlElement(ElementName = "Sources", Namespace = "http://tempuri.org/")]
-            public Sources? Sources { get; set; }
+            [XmlElement(ElementName = "GetEcho", Namespace = "ClientWebService")]
+            public GetEcho? GetEcho { get; set; }
         }
 
-        public class Sources
+
+        public class GetEcho
         {
-            [XmlElement(ElementName = "login", Namespace = "http://tempuri.org/")]
-            public Login? Login { get; set; }
+            [XmlElement(ElementName = "AGENT_CODE")]
+            public string? AGENT_CODE { get; set; }
+
+            [XmlElement(ElementName = "USER_ID")]
+            public string? USER_ID { get; set; }
+
+            [XmlElement(ElementName = "AGENT_SESSION_ID")]
+            public string? AGENT_SESSION_ID { get; set; }
+
+            [XmlElement(ElementName = "SIGNATURE")]
+            public string? SIGNATURE { get; set; }
         }
 
-        public class Login
+        public class EchoRequestXMLModel
         {
-            [XmlElement(ElementName = "USERNAME", Namespace = "http://tempuri.org/")]
-            public string? USERNAME { get; set; }
 
-            [XmlElement(ElementName = "PASSWORD", Namespace = "http://tempuri.org/")]
-            public string? PASSWORD { get; set; }
+            [XmlElement(ElementName = "AGENT_CODE")]
+            public string AgentCode { get; set; }
 
-            [XmlElement(ElementName = "AGENTCODE", Namespace = "http://tempuri.org/")]
-            public string? AGENTCODE { get; set; }
+            [XmlElement(ElementName = "USER_ID")]
+            public string UserId { get; set; }
+
+            [XmlElement(ElementName = "AGENT_SESSION_ID")]
+            public string AgentSessionId { get; set; }
+
+            [XmlElement(ElementName = "SIGNATURE")]
+            public string SIGNATURE { get; set; }
         }
     }
 }
