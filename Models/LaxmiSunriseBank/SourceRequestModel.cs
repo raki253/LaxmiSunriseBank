@@ -48,16 +48,15 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
 
             [XmlElement(ElementName = "Body", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
             public Body? Body { get; set; }
-        }
-
-         
-        
-    
+        }       
 
         public class Body
         {
             [XmlElement(ElementName = "GetEcho", Namespace = "ClientWebService")]
             public GetEcho? GetEcho { get; set; }
+
+            [XmlElement(ElementName = "GetAgentList", Namespace = "ClientWebService")]
+            public GetAgentList? GetAgentList { get; set; }
         }
 
 
@@ -71,6 +70,27 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
 
             [XmlElement(ElementName = "AGENT_SESSION_ID")]
             public string? AGENT_SESSION_ID { get; set; }
+
+            [XmlElement(ElementName = "SIGNATURE")]
+            public string? SIGNATURE { get; set; }
+        }
+
+        public class GetAgentList
+        {
+            [XmlElement(ElementName = "AGENT_CODE")]
+            public string? AGENT_CODE { get; set; }
+
+            [XmlElement(ElementName = "USER_ID")]
+            public string? USER_ID { get; set; }
+
+            [XmlElement(ElementName = "AGENT_SESSION_ID")]
+            public string? AGENT_SESSION_ID { get; set; }
+
+            [XmlElement(ElementName = "PAYMENTTYPE")]
+            public string? PAYMENTTYPE { get; set; }
+
+            [XmlElement(ElementName = "PAYOUT_COUNTRY")]
+            public string? PAYOUT_COUNTRY { get; set; }
 
             [XmlElement(ElementName = "SIGNATURE")]
             public string? SIGNATURE { get; set; }

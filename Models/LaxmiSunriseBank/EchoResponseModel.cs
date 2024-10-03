@@ -4,10 +4,10 @@ using System.Text;
 
 namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
 {
-    public class EchoResponseModel
+    public class EchoResponseModel : SourceResponse
     {
         public string? Code { get; set; }
 
-        public string? Message { get; set; }        
+        public string? Message { get; set; }
     }
 }

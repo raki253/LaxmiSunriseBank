@@ -8,6 +8,8 @@ namespace LaxmiSunriseBank.API.APIServices
 {
     public interface IAPIServices
     {
-        Task<EchoResponseModel> GetEcho(EchoRequestModel echoRequestModel);
+        public Task<EchoResponseModel> GetEcho(EchoRequestModel echoRequestModel);
+
+        public Task<AgentListResponse> GetAgentList(AgentListRequestModel agentListRequestModel);
     }
 }
