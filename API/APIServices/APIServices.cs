@@ -44,12 +44,12 @@ namespace LaxmiSunriseBank.API.APIServices
                     {
                         GetAgentList = new SourceRequestModelXML.GetAgentList
                         {
-                            AGENT_CODE = "FED001",
-                            USER_ID = "FEDERAL1",
-                            AGENT_SESSION_ID = "1298709",
-                            SIGNATURE = "7d56439f55beff0d0fcd50bc4d887ca24848b676963126a6d317bbb4f377f701",
-                            PAYMENTTYPE = "C",
-                            PAYOUT_COUNTRY = "NEP",
+                            AGENT_CODE = agentListRequestModel.AgentCode,
+                            USER_ID = agentListRequestModel.UserId,
+                            AGENT_SESSION_ID = agentListRequestModel.AgentSessionId,
+                            SIGNATURE = agentListRequestModel.Signature,
+                            PAYMENTTYPE = agentListRequestModel.PaymentType,
+                            PAYOUT_COUNTRY = agentListRequestModel.PayoutCountry,
                         }
                     }
                 };
@@ -71,9 +71,15 @@ namespace LaxmiSunriseBank.API.APIServices
                 var apiResponseData = await _apiHandler.SOAPPostCall<AgentListResponseModelXML.Envelope>("https://sunrise.iremit.com.my/SendWSV5/txnservice.asmx", serializedXML);
                 if (apiResponseData.IsSuccess)
                 {
-                    var responseModel = _mapper.Map<List<AgentListResponseModel>>(apiResponseData?.ResponseData?.Body?.GetAgentListResponse?.GetAgentListResult?.Return_AGENTLIST);
-                    response.IsSuccess = true;
-                    response.AgentList = responseModel;
+                    var serializer1 = new XmlSerializer(typeof(AgentListResponseModelXML.Envelope));
+                    using (var reader = new StringReader(apiResponseData.Response))
+                    {
+                        var responseModel = (AgentListResponseModelXML.Envelope)serializer1.Deserialize(reader);
+                        response.IsSuccess = true;
+                        //var responseModel = _mapper.Map<List<AgentListResponseModel>>(apiResponseData?.ResponseData?.Body?.GetAgentListResponse?.GetAgentListResult?.Return_AGENTLIST);
+                        response.IsSuccess = true;
+                        response.AgentList = responseModel.Body?.GetAgentListResponse?.GetAgentListResult?.Return_AGENTLIST;
+                    }
                 }
                 else
                 {
@@ -105,10 +111,10 @@ namespace LaxmiSunriseBank.API.APIServices
                     {
                         GetBankList = new SourceRequestModelXML.GetBankList
                         {
-                            AGENT_CODE = "FED001",
-                            USER_ID = "FEDERAL1",
-                            AGENT_SESSION_ID = "1298709",
-                            SIGNATURE = "7d56439f55beff0d0fcd50bc4d887ca24848b676963126a6d317bbb4f377f701"
+                            AGENT_CODE = bankListRequestModel.AgentCode,
+                            USER_ID = bankListRequestModel.UserId,
+                            AGENT_SESSION_ID = bankListRequestModel.AgentSessionId,
+                            SIGNATURE = bankListRequestModel.Signature
                         }
                     }
                 };
@@ -171,10 +177,10 @@ namespace LaxmiSunriseBank.API.APIServices
                     {
                         GetCurrentBalance = new SourceRequestModelXML.GetCurrentBalanceRequest
                         {
-                            AgentCode = "FED001",
-                            UserId = "FEDERAL1",
-                            AgentSessionId = "1298709",
-                            Signature = "7d56439f55beff0d0fcd50bc4d887ca24848b676963126a6d317bbb4f377f701"
+                            AgentCode = currentBalanceRequestModel.AgentCode,
+                            UserId = currentBalanceRequestModel.UserId,
+                            AgentSessionId = currentBalanceRequestModel.AgentSessionId,
+                            Signature = currentBalanceRequestModel.Signature
                         }
                     }
                 };
@@ -237,10 +243,10 @@ namespace LaxmiSunriseBank.API.APIServices
                     {
                         GetEcho = new SourceRequestModelXML.GetEcho
                         {
-                            AGENT_CODE = "FED001",
-                            USER_ID = "FEDERAL1",
-                            AGENT_SESSION_ID = "1298709",
-                            SIGNATURE = "7d56439f55beff0d0fcd50bc4d887ca24848b676963126a6d317bbb4f377f701"
+                            AGENT_CODE = echoRequestModel.AgentCode,
+                            USER_ID = echoRequestModel.UserId,
+                            AGENT_SESSION_ID = echoRequestModel.AgentSessionId,
+                            SIGNATURE = echoRequestModel.Signature
                         }
                     }
                 };
@@ -259,11 +265,18 @@ namespace LaxmiSunriseBank.API.APIServices
                         serializedXML = stringWriter.ToString();
                     }
                 }
-                var apiResponseData = await _apiHandler.SOAPPostCall<SourceRequestModelXML.Envelope>("https://sunrise.iremit.com.my/SendWSV5/txnservice.asmx", serializedXML);
+                var apiResponseData = await _apiHandler.SOAPPostCall<EchoResponseModelXML.Envelope>("https://sunrise.iremit.com.my/SendWSV5/txnservice.asmx", serializedXML);
                 if (apiResponseData.IsSuccess)
                 {
+                    var serializer1 = new XmlSerializer(typeof(EchoResponseModelXML.Envelope));
+                    using (var reader = new StringReader(apiResponseData.Response))
+                    {
+                        var responseModel = (EchoResponseModelXML.Envelope)serializer1.Deserialize(reader);
+                        response.IsSuccess = true;
+                        response.GetEchoResult = responseModel.Body?.GetEchoResponse?.GetEchoResult;
+                    }
                     //response = _mapper.Map<EchoResponseModel>(apiResponseData?.ResponseData?.Body?.GetEcho);
-                    response.IsSuccess = true;
+                    //response.IsSuccess = true;
                 }
                 else
                 {

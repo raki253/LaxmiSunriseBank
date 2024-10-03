@@ -9,31 +9,39 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
 {
     public class SourceRequestModel
     {
+        private string _agentCode;
+        private string _userId;
+        private string _agentSessionId;
+        private string _signature;
+
         public SourceRequestModel()
         {
-                
+            _agentCode = "FED001";
+            _userId = "FEDERAL1";
+            _agentSessionId = "1298709";
+            _signature = "7d56439f55beff0d0fcd50bc4d887ca24848b676963126a6d317bbb4f377f701";    
         }
         public string AgentCode
         {
-            get { return AgentCode; } 
-            set { AgentCode = "FED001"; }
+            get { return _agentCode; }
+            set { _agentCode = value; }
         }
         
         public string UserId {
-            get { return UserId; }  
-            set { UserId = "FEDERAL1"; }
+            get { return _userId; }
+            set { _userId = value; }
         }
 
   
         public string AgentSessionId {
-            get { return AgentSessionId; }
-            set { AgentSessionId = "1298709"; }
+            get { return _agentSessionId; }
+            set { _agentSessionId = value; }
         }
       
         public string Signature
         {
-            get { return AgentSessionId; }
-            set { AgentSessionId = "7d56439f55beff0d0fcd50bc4d887ca24848b676963126a6d317bbb4f377f701"; }
+            get { return _signature; }
+            set { _signature = value; }
         }
     }
 

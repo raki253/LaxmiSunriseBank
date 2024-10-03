@@ -11,7 +11,7 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
         public bool? IsSuccess { get; set; }
         public bool? TimeOut { get; set; }
         public string? URL { get; set; }
-        public List<AgentListResponseModel> AgentList { get; set; } = new List<AgentListResponseModel>();
+        public List<ReturnAgentList> AgentList { get; set; } = new List<ReturnAgentList>();
     }
     public class AgentListResponseModel : SourceResponse
     {
