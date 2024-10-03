@@ -60,6 +60,9 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
 
             [XmlElement(ElementName = "GetBankList", Namespace = "ClientWebService")]
             public GetBankList? GetBankList { get; set; }
+
+            [XmlElement(ElementName = "GetCurrentBalance", Namespace = "ClientWebService")]
+            public GetCurrentBalanceRequest GetCurrentBalance { get; set; }
         }
 
 
@@ -128,6 +131,21 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
 
             [XmlElement(ElementName = "SIGNATURE")]
             public string? SIGNATURE { get; set; }
+        }
+
+        public class GetCurrentBalanceRequest
+        {
+            [XmlElement(ElementName = "AGENT_CODE")]
+            public string AgentCode { get; set; }
+
+            [XmlElement(ElementName = "USER_ID")]
+            public string UserId { get; set; }
+
+            [XmlElement(ElementName = "AGENT_SESSION_ID")]
+            public string AgentSessionId { get; set; }
+
+            [XmlElement(ElementName = "SIGNATURE")]
+            public string Signature { get; set; }
         }
     }
 }

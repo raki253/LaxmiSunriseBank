@@ -13,5 +13,7 @@ namespace LaxmiSunriseBank.API.APIServices
         public Task<AgentListResponse> GetAgentList(AgentListRequestModel agentListRequestModel);
 
         public Task<BankListResponse> GetBankList(BankListRequestModel bankListRequestModel);
+
+        public Task<CurrentBalanceResponse> GetCurrentBalance(CurrentBalanceRequestModel currentBalanceRequestModel);
     }
 }
