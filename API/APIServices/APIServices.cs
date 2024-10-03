@@ -133,10 +133,10 @@ namespace LaxmiSunriseBank.API.APIServices
                 {
                     if (apiResponseData.IsSuccess)
                     {
-                        var serializer1 = new XmlSerializer(typeof(SoapEnvelope));
+                        var serializer1 = new XmlSerializer(typeof(BankListResponseModelXML.Envelope));
                         using (var reader = new StringReader(apiResponseData.Response))
                         {
-                            var responseModel = (SoapEnvelope)serializer1.Deserialize(reader);
+                            var responseModel = (BankListResponseModelXML.Envelope)serializer1.Deserialize(reader);
                             response.IsSuccess = true;
                             response.BankList = responseModel.Body?.GetBankListResponse?.GetBankListResult?.Return_BankList;
                         }

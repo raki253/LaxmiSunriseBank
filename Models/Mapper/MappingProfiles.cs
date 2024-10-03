@@ -10,7 +10,7 @@ namespace LaxmiSunriseBank.Services.Models.Mapper
         public MappingProfiles()
         {
             CreateMap<AgentListResponseModelXML.ReturnAgentList, AgentListResponseModel>().ReverseMap();
-            CreateMap<ReturnBankList, BankListResponseModel>().ReverseMap();
+            //CreateMap<ReturnBankList, BankListResponseModel>().ReverseMap();
 
             //CreateMap<ReturnBankList, List<BankListResponseModel>>().ReverseMap();
 
