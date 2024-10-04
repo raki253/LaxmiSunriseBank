@@ -32,16 +32,16 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
         public class GetEcho
         {
             [XmlElement(ElementName = "AGENT_CODE")]
-            public string? AGENT_CODE { get; set; }
+            public string? AgentCode { get; set; }
 
             [XmlElement(ElementName = "USER_ID")]
-            public string? USER_ID { get; set; }
+            public string? USerId { get; set; }
 
             [XmlElement(ElementName = "AGENT_SESSION_ID")]
-            public string? AGENT_SESSION_ID { get; set; }
+            public string? AgentSession { get; set; }
 
             [XmlElement(ElementName = "SIGNATURE")]
-            public string? SIGNATURE { get; set; }
+            public string? Signature { get; set; }
         }
     }
 }

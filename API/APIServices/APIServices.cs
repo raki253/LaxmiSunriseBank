@@ -13,13 +13,16 @@ using System.Xml;
 using static LaxmiSunriseBank.Models.LaxmiSunriseBank.SourceRequestModelXML;
 using LaxmiSunriseBank.Services.Models;
 using static LaxmiSunriseBank.Models.LaxmiSunriseBank.BankListResponseModelXML;
+using LaxmiSunriseBank.CommonUtlilies;
 
 namespace LaxmiSunriseBank.API.APIServices
 {
     public class APIServices : IAPIServices
     {
         private readonly IAPIHandler _apiHandler;
+        private readonly ICommonUtility _commonUtility;
         private readonly IMapper _mapper;
+        private readonly string apiPassword = "123";
 
         /// <summary>
         /// Constructor
@@ -27,10 +30,11 @@ namespace LaxmiSunriseBank.API.APIServices
         /// <param name="logger"></param>
         /// <param name="mapper"></param>
         /// <param name="apiHandler"></param>
-        public APIServices(IAPIHandler apiHandler, IMapper mapper)
+        public APIServices(IAPIHandler apiHandler, IMapper mapper,ICommonUtility commonUtility)
         {
             _apiHandler = apiHandler;
             _mapper = mapper;
+            _commonUtility = commonUtility;
         }
 
         public async Task<AmendmentResponse> AmendmentRequest(AmendmentRequestModel amendmentRequestModel)
@@ -47,7 +51,7 @@ namespace LaxmiSunriseBank.API.APIServices
                             AgentCode = amendmentRequestModel.AgentCode,
                             UserId = amendmentRequestModel.UserId,
                             AgentSessionId = amendmentRequestModel.AgentSessionId,
-                            Signature = amendmentRequestModel.Signature,
+                            Signature = await _commonUtility.GenerateSHA256Signature(amendmentRequestModel.AgentCode, amendmentRequestModel.UserId, amendmentRequestModel.AgentSessionId, amendmentRequestModel.PinNo, amendmentRequestModel.AmendmentField, amendmentRequestModel.AmendmentValue, apiPassword),
                             AmendmentField = amendmentRequestModel.AmendmentField,
                             AmendmentValue = amendmentRequestModel.AmendmentValue,
                             PinNo = amendmentRequestModel.PinNo
@@ -105,19 +109,15 @@ namespace LaxmiSunriseBank.API.APIServices
         public async Task<AuthorizedConfirmedResponseModel> AuthorisedConfirmRequest(AuthorizedConfirmedRequestModel authorizedConfirmedRequestModel)
         {
             AuthorizedConfirmedResponseModel response = new AuthorizedConfirmedResponseModel();
+            var mappedRequestModel = _mapper.Map<AuthorizedConfirmedRequestModelXML.AuthorizedConfirmModel>(authorizedConfirmedRequestModel);
+            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(authorizedConfirmedRequestModel.AgentCode, authorizedConfirmedRequestModel.UserId, authorizedConfirmedRequestModel.PinNo, authorizedConfirmedRequestModel.AgentSessionId, apiPassword); 
             try
             {
                 var currentBalanceRequestXML = new AuthorizedConfirmedRequestModelXML.Envelope
                 {
                     Body = new AuthorizedConfirmedRequestModelXML.Body
                     {
-                        AuthorizedConfirmModel = new AuthorizedConfirmedRequestModelXML.AuthorizedConfirmModel
-                        {
-                            PinNo = authorizedConfirmedRequestModel.PinNo,
-                            AgentCode = authorizedConfirmedRequestModel.AgentCode,
-                            AgentSessionId = authorizedConfirmedRequestModel.AgentSessionId
-
-                        }
+                        AuthorizedConfirmModel = mappedRequestModel
                     }
                 };
 
@@ -229,21 +229,15 @@ namespace LaxmiSunriseBank.API.APIServices
         public async Task<AgentListResponse> GetAgentList(AgentListRequestModel agentListRequestModel)
         {
             AgentListResponse response = new AgentListResponse();
+            var mappedRequestModel = _mapper.Map<AgentListRequestModelXML.GetAgentList>(agentListRequestModel);
+            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(agentListRequestModel.AgentCode, agentListRequestModel.UserId, agentListRequestModel.AgentSessionId, agentListRequestModel.PaymentType, agentListRequestModel.PayoutCountry, apiPassword);
             try
             {
                 var agentListRequestXML = new AgentListRequestModelXML.Envelope
                 {
                     Body = new AgentListRequestModelXML.Body
                     {
-                        GetAgentList = new AgentListRequestModelXML.GetAgentList
-                        {
-                            AGENT_CODE = agentListRequestModel.AgentCode,
-                            USER_ID = agentListRequestModel.UserId,
-                            AGENT_SESSION_ID = agentListRequestModel.AgentSessionId,
-                            SIGNATURE = agentListRequestModel.Signature,
-                            PAYMENTTYPE = agentListRequestModel.PaymentType,
-                            PAYOUT_COUNTRY = agentListRequestModel.PayoutCountry,
-                        }
+                        GetAgentList = mappedRequestModel
                     }
                 };
 
@@ -294,19 +288,15 @@ namespace LaxmiSunriseBank.API.APIServices
         public async Task<BankListResponse> GetBankList(BankListRequestModel bankListRequestModel)
         {
             BankListResponse response = new BankListResponse();
+            var mappedRequestModel = _mapper.Map<BankListRequestModelXML.GetBankList>(bankListRequestModel);
+            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(bankListRequestModel.AgentCode, bankListRequestModel.UserId, bankListRequestModel.AgentSessionId, apiPassword);
             try
             {
                 var bankListRequestXML = new BankListRequestModelXML.Envelope
                 {
                     Body = new BankListRequestModelXML.Body
                     {
-                        GetBankList = new BankListRequestModelXML.GetBankList
-                        {
-                            AGENT_CODE = bankListRequestModel.AgentCode,
-                            USER_ID = bankListRequestModel.UserId,
-                            AGENT_SESSION_ID = bankListRequestModel.AgentSessionId,
-                            SIGNATURE = bankListRequestModel.Signature
-                        }
+                        GetBankList = mappedRequestModel
                     }
                 };
 
@@ -356,19 +346,16 @@ namespace LaxmiSunriseBank.API.APIServices
         public async Task<CurrentBalanceResponse> GetCurrentBalance(CurrentBalanceRequestModel currentBalanceRequestModel)
         {
             CurrentBalanceResponse response = new CurrentBalanceResponse();
+            var mappedRequestModel = _mapper.Map<CurrentBalanceRequestModelXML.GetCurrentBalanceRequest>(currentBalanceRequestModel);
+            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(currentBalanceRequestModel.AgentCode, currentBalanceRequestModel.UserId, currentBalanceRequestModel.AgentSessionId, apiPassword);
+
             try
             {
                 var currentBalanceRequestXML = new CurrentBalanceRequestModelXML.Envelope
                 {
                     Body = new CurrentBalanceRequestModelXML.Body
                     {
-                        GetCurrentBalance = new CurrentBalanceRequestModelXML.GetCurrentBalanceRequest
-                        {
-                            AgentCode = currentBalanceRequestModel.AgentCode,
-                            UserId = currentBalanceRequestModel.UserId,
-                            AgentSessionId = currentBalanceRequestModel.AgentSessionId,
-                            Signature = currentBalanceRequestModel.Signature
-                        }
+                        GetCurrentBalance = mappedRequestModel
                     }
                 };
 
@@ -418,19 +405,16 @@ namespace LaxmiSunriseBank.API.APIServices
         public async Task<EchoResponseModel> GetEcho(EchoRequestModel echoRequestModel)
         {
             EchoResponseModel response = new EchoResponseModel();
+            var mappedRequestModel = _mapper.Map<EchoRequestModelXML.GetEcho>(echoRequestModel);
+            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(echoRequestModel.AgentCode, echoRequestModel.UserId, echoRequestModel.AgentSessionId, apiPassword);
+
             try
             {
                 var echoRequestXML = new EchoRequestModelXML.Envelope
                 {
                     Body = new EchoRequestModelXML.Body
                     {
-                        GetEcho = new EchoRequestModelXML.GetEcho
-                        {
-                            AGENT_CODE = echoRequestModel.AgentCode,
-                            USER_ID = echoRequestModel.UserId,
-                            AGENT_SESSION_ID = echoRequestModel.AgentSessionId,
-                            SIGNATURE = echoRequestModel.Signature
-                        }
+                        GetEcho = mappedRequestModel
                     }
                 };
 
@@ -481,24 +465,16 @@ namespace LaxmiSunriseBank.API.APIServices
         public async Task<ExRateResponse> GetEXRate(ExRateRequestModel exRateRequestModel)
         {
             ExRateResponse response = new ExRateResponse();
+            var mappedRequestModel = _mapper.Map<ExRateRequestModelXML.GetEXRateRequest>(exRateRequestModel);
+            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(exRateRequestModel.AgentCode, exRateRequestModel.UserId, exRateRequestModel.AgentSessionId, exRateRequestModel.TransferAmount, exRateRequestModel.PaymentMode, exRateRequestModel.CalcBy, exRateRequestModel.LocationId, exRateRequestModel.PayoutCountry,apiPassword);
+
             try
             {
                 var exRateRequestXML = new ExRateRequestModelXML.Envelope
                 {
                     Body = new ExRateRequestModelXML.Body
                     {
-                        GetEXRate = new ExRateRequestModelXML.GetEXRateRequest
-                        {
-                            AgentCode = exRateRequestModel.AgentCode,
-                            UserId = exRateRequestModel.UserId,
-                            AgentSessionId = exRateRequestModel.AgentSessionId,
-                            Signature = exRateRequestModel.Signature,
-                            CalcBy = exRateRequestModel.CalcBy,
-                            LocationId = exRateRequestModel.LocationId,
-                            PayoutCountry = exRateRequestModel.PayoutCountry,
-                            PaymentMode = exRateRequestModel.PaymentMode,
-                            TransferAmount = exRateRequestModel.TransferAmount,
-                        }
+                        GetEXRate = mappedRequestModel
                     }
                 };
 
@@ -550,6 +526,7 @@ namespace LaxmiSunriseBank.API.APIServices
             ReconcileReportResponseModel response = new ReconcileReportResponseModel();
 
             var reconcileMapper = _mapper.Map<ReconcileReportRequestModelXML.ReconcileReportRequest>(reconcileReportRequestModel);
+            reconcileMapper.Signature = await _commonUtility.GenerateSHA256Signature(reconcileReportRequestModel.AgentCode, reconcileReportRequestModel.UserId, reconcileReportRequestModel.AgentSessionId, reconcileReportRequestModel.ReportType, reconcileReportRequestModel.FromDate, reconcileReportRequestModel.FromDateTime, reconcileReportRequestModel.ToDate, reconcileReportRequestModel.ToDateTime, reconcileReportRequestModel.ShowIncremental, apiPassword);
             try
             {
                 var amendmentRequestXML = new ReconcileReportRequestModelXML.Envelope

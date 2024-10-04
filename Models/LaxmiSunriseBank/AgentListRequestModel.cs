@@ -34,22 +34,22 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
         public class GetAgentList
         {
             [XmlElement(ElementName = "AGENT_CODE")]
-            public string? AGENT_CODE { get; set; }
+            public string? AgentCode { get; set; }
 
             [XmlElement(ElementName = "USER_ID")]
-            public string? USER_ID { get; set; }
+            public string? UserId { get; set; }
 
             [XmlElement(ElementName = "AGENT_SESSION_ID")]
-            public string? AGENT_SESSION_ID { get; set; }
+            public string? AgentSessionId { get; set; }
 
             [XmlElement(ElementName = "PAYMENTTYPE")]
-            public string? PAYMENTTYPE { get; set; }
+            public string? PaymentType { get; set; }
 
             [XmlElement(ElementName = "PAYOUT_COUNTRY")]
-            public string? PAYOUT_COUNTRY { get; set; }
+            public string? PayoutCountry { get; set; }
 
             [XmlElement(ElementName = "SIGNATURE")]
-            public string? SIGNATURE { get; set; }
+            public string? Signature { get; set; }
         }
     }
 }
