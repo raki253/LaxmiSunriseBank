@@ -19,5 +19,7 @@ namespace LaxmiSunriseBank.API.APIServices
         public Task<ExRateResponse> GetEXRate(ExRateRequestModel exRateRequestModel);
 
         public Task<AmendmentResponse> AmendmentRequest(AmendmentRequestModel amendmentRequestModel);
+
+        public Task<SendTransactionResponseModel> SendTransactionRequest(SendTransactionRequestModel sendTransactionRequestModel);
     }
 }

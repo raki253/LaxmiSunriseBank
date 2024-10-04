@@ -420,5 +420,103 @@ namespace LaxmiSunriseBank.API.APIServices
                 return response;
             }
         }
+
+        public async Task<SendTransactionResponseModel> SendTransactionRequest(SendTransactionRequestModel sendTransactionRequestModel)
+        {
+            SendTransactionResponseModel response = new SendTransactionResponseModel();
+            try
+            {
+                var sendTransactionRequestXML = new SendTransactionRequestModelXML.Envelope
+                {
+                    Body = new SendTransactionRequestModelXML.Body
+                    {
+                        SendTransactionObject = new SendTransactionRequestModelXML.SendTransaction
+                        {
+                            AgentTxnId = sendTransactionRequestModel.AgentTxnId,
+                            AuthorizedRequired = sendTransactionRequestModel.AuthorizedRequired,
+                            BankAccountNumber = sendTransactionRequestModel.BankAccountNumber,
+                            BankBranchName = sendTransactionRequestModel.BankBranchName,
+                            BankId = sendTransactionRequestModel.BankId,
+                            BankName = sendTransactionRequestModel.BankName,
+                            CalcBy = sendTransactionRequestModel.CalcBy,
+                            LocationId = sendTransactionRequestModel.LocationId,
+                            OurServiceCharge = sendTransactionRequestModel.OurServiceCharge,
+                            PaymentMode = sendTransactionRequestModel.PaymentMode,
+                            PurposeOfRemittance = sendTransactionRequestModel.PurposeOfRemittance,
+                            ReceiverAddress = sendTransactionRequestModel.ReceiverAddress,
+                            ReceiverCity = sendTransactionRequestModel.ReceiverCity,
+                            ReceiverContactNumber = sendTransactionRequestModel.ReceiverContactNumber,
+                            ReceiverCountry = sendTransactionRequestModel.ReceiverCountry,
+                            ReceiverFirstName = sendTransactionRequestModel.ReceiverFirstName,
+                            ReceiverLastName = sendTransactionRequestModel.ReceiverLastName,
+                            ReceiverMiddleName = sendTransactionRequestModel.ReceiverMiddleName,
+                            RelationshipToBeneficiary = sendTransactionRequestModel.RelationshipToBeneficiary,
+                            SenderAddress = sendTransactionRequestModel.SenderAddress,
+                            SenderCity = sendTransactionRequestModel.SenderCity,
+                            SenderCountry = sendTransactionRequestModel.SenderCountry,
+                            SenderDateOfBirth = sendTransactionRequestModel.SenderDateOfBirth,
+                            SenderFirstName = sendTransactionRequestModel.SenderFirstName,
+                            SenderGender = sendTransactionRequestModel.SenderGender,
+                            SenderIdExpireDate = sendTransactionRequestModel.SenderIdExpireDate,
+                            SenderIdIssueDate = sendTransactionRequestModel.SenderIdIssueDate,
+                            SenderIdNumber = sendTransactionRequestModel.SenderIdNumber,
+                            SenderIdType = sendTransactionRequestModel.SenderIdType,
+                            SenderLastName = sendTransactionRequestModel.SenderLastName,
+                            SenderMiddleName = sendTransactionRequestModel.SenderMiddleName,
+                            SenderMobile = sendTransactionRequestModel.SenderMobile,
+                            SenderNationality = sendTransactionRequestModel.SenderNationality,
+                            SenderOccupation = sendTransactionRequestModel.SenderOccupation,
+                            SettlementDollarRate = sendTransactionRequestModel.SettlementDollarRate,
+                            SourceOfFund = sendTransactionRequestModel.SourceOfFund,
+                            TransactionExchangeRate = sendTransactionRequestModel.TransactionExchangeRate,
+                            TransferAmount = sendTransactionRequestModel.TransferAmount
+                        }
+                    }
+                };
+
+                string serializedXML = string.Empty;
+                XmlSerializer serializer = new XmlSerializer(typeof(SendTransactionRequestModelXML.Envelope));
+                var namespaces = new XmlSerializerNamespaces();
+                namespaces.Add("soapenv", "http://schemas.xmlsoap.org/soap/envelope/");
+                namespaces.Add("tem", "http://tempuri.org/");
+                var settings = new XmlWriterSettings { OmitXmlDeclaration = true };
+                using (StringWriter stringWriter = new StringWriter())
+                {
+                    using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
+                    {
+                        serializer.Serialize(xmlWriter, sendTransactionRequestXML, namespaces);
+                        serializedXML = stringWriter.ToString();
+                    }
+                }
+                var apiResponseData = await _apiHandler.SOAPPostCall<SendTransactionRequestModelXML.Envelope>("https://sunrise.iremit.com.my/SendWSV5/txnservice.asmx", serializedXML);
+
+                if (apiResponseData.IsSuccess)
+                {
+                    if (apiResponseData.IsSuccess)
+                    {
+                        var deserializer = new XmlSerializer(typeof(SendTransactionResponseXMLModel.Envelope));
+                        using (var reader = new StringReader(apiResponseData.Response))
+                        {
+                            var responseModel = (SendTransactionResponseXMLModel.Envelope)deserializer.Deserialize(reader);
+                            response.IsSuccess = true;
+                            response.TransactionDetails = responseModel.Body?.SendTransactionResponse?.TransactionDetails;
+                        }
+                    }
+
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                if (ex.Message.Contains("Timeout"))
+                {
+                    response.TimeOut = true;
+                }
+                return response;
+            }
+        }
+
+        
     }
 }
