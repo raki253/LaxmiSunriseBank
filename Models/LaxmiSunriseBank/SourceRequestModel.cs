@@ -71,6 +71,13 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
 
             [XmlElement(ElementName = "GetCurrentBalance", Namespace = "ClientWebService")]
             public GetCurrentBalanceRequest GetCurrentBalance { get; set; }
+
+            [XmlElement(ElementName = "GetEXRate", Namespace = "ClientWebService")]
+            public GetEXRateRequest GetEXRate { get; set; }
+
+            [XmlElement(ElementName = "AmendmentRequest", Namespace = "ClientWebService")]
+            public AmendmentRequest AmendmentRequest { get; set; }
+
         }
 
 
@@ -151,6 +158,60 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
 
             [XmlElement(ElementName = "AGENT_SESSION_ID")]
             public string AgentSessionId { get; set; }
+
+            [XmlElement(ElementName = "SIGNATURE")]
+            public string Signature { get; set; }
+        }
+
+        public class GetEXRateRequest
+        {
+            [XmlElement(ElementName = "AGENT_CODE")]
+            public string AgentCode { get; set; }
+
+            [XmlElement(ElementName = "USER_ID")]
+            public string UserId { get; set; }
+
+            [XmlElement(ElementName = "AGENT_SESSION_ID")]
+            public string AgentSessionId { get; set; }
+
+            [XmlElement(ElementName = "TRANSFER_AMOUNT")]
+            public string TransferAmount { get; set; }
+
+            [XmlElement(ElementName = "PAYMENT_MODE")]
+            public string PaymentMode { get; set; }
+
+            [XmlElement(ElementName = "CALC_BY")]
+            public string CalcBy { get; set; }
+
+            [XmlElement(ElementName = "LOCATION_ID")]
+            public string LocationId { get; set; }
+
+            [XmlElement(ElementName = "PAYOUT_COUNTRY")]
+            public string PayoutCountry { get; set; }
+
+            [XmlElement(ElementName = "SIGNATURE")]
+            public string Signature { get; set; }
+        }
+
+        public class AmendmentRequest
+        {
+            [XmlElement(ElementName = "AGENT_CODE")]
+            public string AgentCode { get; set; }
+
+            [XmlElement(ElementName = "USER_ID")]
+            public string UserId { get; set; }
+
+            [XmlElement(ElementName = "AGENT_SESSION_ID")]
+            public string AgentSessionId { get; set; }
+
+            [XmlElement(ElementName = "PINNO")]
+            public string PinNo { get; set; }
+
+            [XmlElement(ElementName = "AMENDMENT_FIELD")]
+            public string AmendmentField { get; set; }
+
+            [XmlElement(ElementName = "AMENDMENT_VALUE")]
+            public string AmendmentValue { get; set; }
 
             [XmlElement(ElementName = "SIGNATURE")]
             public string Signature { get; set; }

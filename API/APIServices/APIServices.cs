@@ -33,6 +33,75 @@ namespace LaxmiSunriseBank.API.APIServices
             _mapper = mapper;
         }
 
+        public async Task<AmendmentResponse> AmendmentRequest(AmendmentRequestModel amendmentRequestModel)
+        {
+            AmendmentResponse response = new AmendmentResponse();
+            try
+            {
+                var bankListRequestXML = new SourceRequestModelXML.Envelope
+                {
+                    Body = new SourceRequestModelXML.Body
+                    {
+                        AmendmentRequest = new SourceRequestModelXML.AmendmentRequest
+                        {
+                            AgentCode = amendmentRequestModel.AgentCode,
+                            UserId = amendmentRequestModel.UserId,
+                            AgentSessionId = amendmentRequestModel.AgentSessionId,
+                            Signature = amendmentRequestModel.Signature,
+                            AmendmentField = amendmentRequestModel.AmendmentField,
+                            AmendmentValue = amendmentRequestModel.AmendmentValue,
+                            PinNo = amendmentRequestModel.PinNo
+                        }
+                    }
+                };
+
+                string serializedXML = string.Empty;
+                XmlSerializer serializer = new XmlSerializer(typeof(SourceRequestModelXML.Envelope));
+                var namespaces = new XmlSerializerNamespaces();
+                namespaces.Add("soapenv", "http://schemas.xmlsoap.org/soap/envelope/");
+                namespaces.Add("tem", "http://tempuri.org/");
+                var settings = new XmlWriterSettings { OmitXmlDeclaration = true };
+                using (StringWriter stringWriter = new StringWriter())
+                {
+                    using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
+                    {
+                        serializer.Serialize(xmlWriter, bankListRequestXML, namespaces);
+                        serializedXML = stringWriter.ToString();
+                    }
+                }
+                var apiResponseData = await _apiHandler.SOAPPostCall<AmendmentResponseModelXML.Envelope>("https://sunrise.iremit.com.my/SendWSV5/txnservice.asmx", serializedXML);
+
+                if (apiResponseData.IsSuccess)
+                {
+                    if (apiResponseData.IsSuccess)
+                    {
+                        var serializer1 = new XmlSerializer(typeof(AmendmentResponseModelXML.Envelope));
+                        using (var reader = new StringReader(apiResponseData.Response))
+                        {
+                            var responseModel = (AmendmentResponseModelXML.Envelope)serializer1.Deserialize(reader);
+                            response.IsSuccess = true;
+                            response.AmendmentRequestResult = responseModel.Body?.AmendmentRequestResponse?.AmendmentRequestResult;
+                        }
+
+                        //var responseModel = _mapper.Map<List<BankListResponseModel>>(apiResponseData?.ResponseData?.Body?.GetBankListResponse?.GetBankListResult?.Return_BANKLIST);
+                        //response.IsSuccess = true;
+                        //response.BankList = responseModel;
+                    }
+
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                if (ex.Message.Contains("Timeout"))
+                {
+                    response.TimeOut = true;
+                }
+                return response;
+            }
+        }
+
         public async Task<AgentListResponse> GetAgentList(AgentListRequestModel agentListRequestModel)
         {
             AgentListResponse response = new AgentListResponse();
@@ -283,6 +352,77 @@ namespace LaxmiSunriseBank.API.APIServices
                     response.IsSuccess = false;
                     if (apiResponseData!.IsTimedOut)
                         response.TimeOut = true;
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                if (ex.Message.Contains("Timeout"))
+                {
+                    response.TimeOut = true;
+                }
+                return response;
+            }
+        }
+
+        public async Task<ExRateResponse> GetEXRate(ExRateRequestModel exRateRequestModel)
+        {
+            ExRateResponse response = new ExRateResponse();
+            try
+            {
+                var bankListRequestXML = new SourceRequestModelXML.Envelope
+                {
+                    Body = new SourceRequestModelXML.Body
+                    {
+                        GetEXRate = new SourceRequestModelXML.GetEXRateRequest
+                        {
+                            AgentCode = exRateRequestModel.AgentCode,
+                            UserId = exRateRequestModel.UserId,
+                            AgentSessionId = exRateRequestModel.AgentSessionId,
+                            Signature = exRateRequestModel.Signature,
+                            CalcBy = exRateRequestModel.CalcBy,
+                            LocationId = exRateRequestModel.LocationId,
+                            PayoutCountry = exRateRequestModel.PayoutCountry,
+                            PaymentMode = exRateRequestModel.PaymentMode,
+                            TransferAmount = exRateRequestModel.TransferAmount,
+                        }
+                    }
+                };
+
+                string serializedXML = string.Empty;
+                XmlSerializer serializer = new XmlSerializer(typeof(SourceRequestModelXML.Envelope));
+                var namespaces = new XmlSerializerNamespaces();
+                namespaces.Add("soapenv", "http://schemas.xmlsoap.org/soap/envelope/");
+                namespaces.Add("tem", "http://tempuri.org/");
+                var settings = new XmlWriterSettings { OmitXmlDeclaration = true };
+                using (StringWriter stringWriter = new StringWriter())
+                {
+                    using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
+                    {
+                        serializer.Serialize(xmlWriter, bankListRequestXML, namespaces);
+                        serializedXML = stringWriter.ToString();
+                    }
+                }
+                var apiResponseData = await _apiHandler.SOAPPostCall<ExRateResponseModelXML.Envelope>("https://sunrise.iremit.com.my/SendWSV5/txnservice.asmx", serializedXML);
+
+                if (apiResponseData.IsSuccess)
+                {
+                    if (apiResponseData.IsSuccess)
+                    {
+                        var serializer1 = new XmlSerializer(typeof(ExRateResponseModelXML.Envelope));
+                        using (var reader = new StringReader(apiResponseData.Response))
+                        {
+                            var responseModel = (ExRateResponseModelXML.Envelope)serializer1.Deserialize(reader);
+                            response.IsSuccess = true;
+                            response.GetEXRateResult = responseModel.Body?.GetEXRateResponse?.GetEXRateResult;
+                        }
+
+                        //var responseModel = _mapper.Map<List<BankListResponseModel>>(apiResponseData?.ResponseData?.Body?.GetBankListResponse?.GetBankListResult?.Return_BANKLIST);
+                        //response.IsSuccess = true;
+                        //response.BankList = responseModel;
+                    }
+
                 }
                 return response;
             }
