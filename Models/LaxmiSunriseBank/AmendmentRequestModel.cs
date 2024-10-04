@@ -14,4 +14,45 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
         public string AmendmentValue { get; set; }
 
     }
+
+    public class AmendmentRequestModelXML
+    {
+        [XmlRoot(ElementName = "Envelope", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
+        public class Envelope
+        {
+
+            [XmlElement(ElementName = "Body", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
+            public Body? Body { get; set; }
+        }
+
+        public class Body
+        {
+            [XmlElement(ElementName = "AmendmentRequest", Namespace = "ClientWebService")]
+            public AmendmentRequest AmendmentRequest { get; set; }
+        }
+
+        public class AmendmentRequest
+        {
+            [XmlElement(ElementName = "AGENT_CODE")]
+            public string AgentCode { get; set; }
+
+            [XmlElement(ElementName = "USER_ID")]
+            public string UserId { get; set; }
+
+            [XmlElement(ElementName = "AGENT_SESSION_ID")]
+            public string AgentSessionId { get; set; }
+
+            [XmlElement(ElementName = "PINNO")]
+            public string PinNo { get; set; }
+
+            [XmlElement(ElementName = "AMENDMENT_FIELD")]
+            public string AmendmentField { get; set; }
+
+            [XmlElement(ElementName = "AMENDMENT_VALUE")]
+            public string AmendmentValue { get; set; }
+
+            [XmlElement(ElementName = "SIGNATURE")]
+            public string Signature { get; set; }
+        }
+    }
 }

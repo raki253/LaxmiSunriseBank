@@ -50,171 +50,171 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
     /// </summary>
     public class SourceRequestModelXML
     {
-        [XmlRoot(ElementName = "Envelope", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
-        public class Envelope
-        {
+    //    [XmlRoot(ElementName = "Envelope", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
+    //    public class Envelope
+    //    {
 
-            [XmlElement(ElementName = "Body", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
-            public Body? Body { get; set; }
-        }       
+    //        [XmlElement(ElementName = "Body", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
+    //        public Body? Body { get; set; }
+    //    }       
 
-        public class Body
-        {
-            [XmlElement(ElementName = "GetEcho", Namespace = "ClientWebService")]
-            public GetEcho? GetEcho { get; set; }
+    //    public class Body
+    //    {
+    //        [XmlElement(ElementName = "GetEcho", Namespace = "ClientWebService")]
+    //        public GetEcho? GetEcho { get; set; }
 
-            [XmlElement(ElementName = "GetAgentList", Namespace = "ClientWebService")]
-            public GetAgentList? GetAgentList { get; set; }
+    //        [XmlElement(ElementName = "GetAgentList", Namespace = "ClientWebService")]
+    //        public GetAgentList? GetAgentList { get; set; }
 
-            [XmlElement(ElementName = "GetBankList", Namespace = "ClientWebService")]
-            public GetBankList? GetBankList { get; set; }
+    //        [XmlElement(ElementName = "GetBankList", Namespace = "ClientWebService")]
+    //        public GetBankList? GetBankList { get; set; }
 
-            [XmlElement(ElementName = "GetCurrentBalance", Namespace = "ClientWebService")]
-            public GetCurrentBalanceRequest GetCurrentBalance { get; set; }
+    //        [XmlElement(ElementName = "GetCurrentBalance", Namespace = "ClientWebService")]
+    //        public GetCurrentBalanceRequest GetCurrentBalance { get; set; }
 
-            [XmlElement(ElementName = "GetEXRate", Namespace = "ClientWebService")]
-            public GetEXRateRequest GetEXRate { get; set; }
+    //        [XmlElement(ElementName = "GetEXRate", Namespace = "ClientWebService")]
+    //        public GetEXRateRequest GetEXRate { get; set; }
 
-            [XmlElement(ElementName = "AmendmentRequest", Namespace = "ClientWebService")]
-            public AmendmentRequest AmendmentRequest { get; set; }
+    //        [XmlElement(ElementName = "AmendmentRequest", Namespace = "ClientWebService")]
+    //        public AmendmentRequest AmendmentRequest { get; set; }
 
-        }
+    //    }
 
 
-        public class GetEcho
-        {
-            [XmlElement(ElementName = "AGENT_CODE")]
-            public string? AGENT_CODE { get; set; }
+    //    public class GetEcho
+    //    {
+    //        [XmlElement(ElementName = "AGENT_CODE")]
+    //        public string? AGENT_CODE { get; set; }
 
-            [XmlElement(ElementName = "USER_ID")]
-            public string? USER_ID { get; set; }
+    //        [XmlElement(ElementName = "USER_ID")]
+    //        public string? USER_ID { get; set; }
 
-            [XmlElement(ElementName = "AGENT_SESSION_ID")]
-            public string? AGENT_SESSION_ID { get; set; }
+    //        [XmlElement(ElementName = "AGENT_SESSION_ID")]
+    //        public string? AGENT_SESSION_ID { get; set; }
 
-            [XmlElement(ElementName = "SIGNATURE")]
-            public string? SIGNATURE { get; set; }
-        }
+    //        [XmlElement(ElementName = "SIGNATURE")]
+    //        public string? SIGNATURE { get; set; }
+    //    }
 
-        public class GetAgentList
-        {
-            [XmlElement(ElementName = "AGENT_CODE")]
-            public string? AGENT_CODE { get; set; }
+    //    public class GetAgentList
+    //    {
+    //        [XmlElement(ElementName = "AGENT_CODE")]
+    //        public string? AGENT_CODE { get; set; }
 
-            [XmlElement(ElementName = "USER_ID")]
-            public string? USER_ID { get; set; }
+    //        [XmlElement(ElementName = "USER_ID")]
+    //        public string? USER_ID { get; set; }
 
-            [XmlElement(ElementName = "AGENT_SESSION_ID")]
-            public string? AGENT_SESSION_ID { get; set; }
+    //        [XmlElement(ElementName = "AGENT_SESSION_ID")]
+    //        public string? AGENT_SESSION_ID { get; set; }
 
-            [XmlElement(ElementName = "PAYMENTTYPE")]
-            public string? PAYMENTTYPE { get; set; }
+    //        [XmlElement(ElementName = "PAYMENTTYPE")]
+    //        public string? PAYMENTTYPE { get; set; }
 
-            [XmlElement(ElementName = "PAYOUT_COUNTRY")]
-            public string? PAYOUT_COUNTRY { get; set; }
+    //        [XmlElement(ElementName = "PAYOUT_COUNTRY")]
+    //        public string? PAYOUT_COUNTRY { get; set; }
 
-            [XmlElement(ElementName = "SIGNATURE")]
-            public string? SIGNATURE { get; set; }
-        }
+    //        [XmlElement(ElementName = "SIGNATURE")]
+    //        public string? SIGNATURE { get; set; }
+    //    }
 
-        public class EchoRequestXMLModel
-        {
+    //    public class EchoRequestXMLModel
+    //    {
 
-            [XmlElement(ElementName = "AGENT_CODE")]
-            public string AgentCode { get; set; }
+    //        [XmlElement(ElementName = "AGENT_CODE")]
+    //        public string AgentCode { get; set; }
 
-            [XmlElement(ElementName = "USER_ID")]
-            public string UserId { get; set; }
+    //        [XmlElement(ElementName = "USER_ID")]
+    //        public string UserId { get; set; }
 
-            [XmlElement(ElementName = "AGENT_SESSION_ID")]
-            public string AgentSessionId { get; set; }
+    //        [XmlElement(ElementName = "AGENT_SESSION_ID")]
+    //        public string AgentSessionId { get; set; }
 
-            [XmlElement(ElementName = "SIGNATURE")]
-            public string SIGNATURE { get; set; }
-        }
+    //        [XmlElement(ElementName = "SIGNATURE")]
+    //        public string SIGNATURE { get; set; }
+    //    }
 
-        public class GetBankList
-        {
-            [XmlElement(ElementName = "AGENT_CODE")]
-            public string? AGENT_CODE { get; set; }
+    //    public class GetBankList
+    //    {
+    //        [XmlElement(ElementName = "AGENT_CODE")]
+    //        public string? AGENT_CODE { get; set; }
 
-            [XmlElement(ElementName = "USER_ID")]
-            public string? USER_ID { get; set; }
+    //        [XmlElement(ElementName = "USER_ID")]
+    //        public string? USER_ID { get; set; }
 
-            [XmlElement(ElementName = "AGENT_SESSION_ID")]
-            public string? AGENT_SESSION_ID { get; set; }
+    //        [XmlElement(ElementName = "AGENT_SESSION_ID")]
+    //        public string? AGENT_SESSION_ID { get; set; }
 
-            [XmlElement(ElementName = "SIGNATURE")]
-            public string? SIGNATURE { get; set; }
-        }
+    //        [XmlElement(ElementName = "SIGNATURE")]
+    //        public string? SIGNATURE { get; set; }
+    //    }
 
-        public class GetCurrentBalanceRequest
-        {
-            [XmlElement(ElementName = "AGENT_CODE")]
-            public string AgentCode { get; set; }
+    //    public class GetCurrentBalanceRequest
+    //    {
+    //        [XmlElement(ElementName = "AGENT_CODE")]
+    //        public string AgentCode { get; set; }
 
-            [XmlElement(ElementName = "USER_ID")]
-            public string UserId { get; set; }
+    //        [XmlElement(ElementName = "USER_ID")]
+    //        public string UserId { get; set; }
 
-            [XmlElement(ElementName = "AGENT_SESSION_ID")]
-            public string AgentSessionId { get; set; }
+    //        [XmlElement(ElementName = "AGENT_SESSION_ID")]
+    //        public string AgentSessionId { get; set; }
 
-            [XmlElement(ElementName = "SIGNATURE")]
-            public string Signature { get; set; }
-        }
+    //        [XmlElement(ElementName = "SIGNATURE")]
+    //        public string Signature { get; set; }
+    //    }
 
-        public class GetEXRateRequest
-        {
-            [XmlElement(ElementName = "AGENT_CODE")]
-            public string AgentCode { get; set; }
+    //    public class GetEXRateRequest
+    //    {
+    //        [XmlElement(ElementName = "AGENT_CODE")]
+    //        public string AgentCode { get; set; }
 
-            [XmlElement(ElementName = "USER_ID")]
-            public string UserId { get; set; }
+    //        [XmlElement(ElementName = "USER_ID")]
+    //        public string UserId { get; set; }
 
-            [XmlElement(ElementName = "AGENT_SESSION_ID")]
-            public string AgentSessionId { get; set; }
+    //        [XmlElement(ElementName = "AGENT_SESSION_ID")]
+    //        public string AgentSessionId { get; set; }
 
-            [XmlElement(ElementName = "TRANSFER_AMOUNT")]
-            public string TransferAmount { get; set; }
+    //        [XmlElement(ElementName = "TRANSFER_AMOUNT")]
+    //        public string TransferAmount { get; set; }
 
-            [XmlElement(ElementName = "PAYMENT_MODE")]
-            public string PaymentMode { get; set; }
+    //        [XmlElement(ElementName = "PAYMENT_MODE")]
+    //        public string PaymentMode { get; set; }
 
-            [XmlElement(ElementName = "CALC_BY")]
-            public string CalcBy { get; set; }
+    //        [XmlElement(ElementName = "CALC_BY")]
+    //        public string CalcBy { get; set; }
 
-            [XmlElement(ElementName = "LOCATION_ID")]
-            public string LocationId { get; set; }
+    //        [XmlElement(ElementName = "LOCATION_ID")]
+    //        public string LocationId { get; set; }
 
-            [XmlElement(ElementName = "PAYOUT_COUNTRY")]
-            public string PayoutCountry { get; set; }
+    //        [XmlElement(ElementName = "PAYOUT_COUNTRY")]
+    //        public string PayoutCountry { get; set; }
 
-            [XmlElement(ElementName = "SIGNATURE")]
-            public string Signature { get; set; }
-        }
+    //        [XmlElement(ElementName = "SIGNATURE")]
+    //        public string Signature { get; set; }
+    //    }
 
-        public class AmendmentRequest
-        {
-            [XmlElement(ElementName = "AGENT_CODE")]
-            public string AgentCode { get; set; }
+    //    public class AmendmentRequest
+    //    {
+    //        [XmlElement(ElementName = "AGENT_CODE")]
+    //        public string AgentCode { get; set; }
 
-            [XmlElement(ElementName = "USER_ID")]
-            public string UserId { get; set; }
+    //        [XmlElement(ElementName = "USER_ID")]
+    //        public string UserId { get; set; }
 
-            [XmlElement(ElementName = "AGENT_SESSION_ID")]
-            public string AgentSessionId { get; set; }
+    //        [XmlElement(ElementName = "AGENT_SESSION_ID")]
+    //        public string AgentSessionId { get; set; }
 
-            [XmlElement(ElementName = "PINNO")]
-            public string PinNo { get; set; }
+    //        [XmlElement(ElementName = "PINNO")]
+    //        public string PinNo { get; set; }
 
-            [XmlElement(ElementName = "AMENDMENT_FIELD")]
-            public string AmendmentField { get; set; }
+    //        [XmlElement(ElementName = "AMENDMENT_FIELD")]
+    //        public string AmendmentField { get; set; }
 
-            [XmlElement(ElementName = "AMENDMENT_VALUE")]
-            public string AmendmentValue { get; set; }
+    //        [XmlElement(ElementName = "AMENDMENT_VALUE")]
+    //        public string AmendmentValue { get; set; }
 
-            [XmlElement(ElementName = "SIGNATURE")]
-            public string Signature { get; set; }
-        }
+    //        [XmlElement(ElementName = "SIGNATURE")]
+    //        public string Signature { get; set; }
+    //    }
     }
 }

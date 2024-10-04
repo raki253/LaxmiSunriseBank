@@ -38,11 +38,11 @@ namespace LaxmiSunriseBank.API.APIServices
             AmendmentResponse response = new AmendmentResponse();
             try
             {
-                var bankListRequestXML = new SourceRequestModelXML.Envelope
+                var amendmentRequestXML = new AmendmentRequestModelXML.Envelope
                 {
-                    Body = new SourceRequestModelXML.Body
+                    Body = new AmendmentRequestModelXML.Body
                     {
-                        AmendmentRequest = new SourceRequestModelXML.AmendmentRequest
+                        AmendmentRequest = new AmendmentRequestModelXML.AmendmentRequest
                         {
                             AgentCode = amendmentRequestModel.AgentCode,
                             UserId = amendmentRequestModel.UserId,
@@ -56,7 +56,7 @@ namespace LaxmiSunriseBank.API.APIServices
                 };
 
                 string serializedXML = string.Empty;
-                XmlSerializer serializer = new XmlSerializer(typeof(SourceRequestModelXML.Envelope));
+                XmlSerializer serializer = new XmlSerializer(typeof(AmendmentRequestModelXML.Envelope));
                 var namespaces = new XmlSerializerNamespaces();
                 namespaces.Add("soapenv", "http://schemas.xmlsoap.org/soap/envelope/");
                 namespaces.Add("tem", "http://tempuri.org/");
@@ -65,7 +65,7 @@ namespace LaxmiSunriseBank.API.APIServices
                 {
                     using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
                     {
-                        serializer.Serialize(xmlWriter, bankListRequestXML, namespaces);
+                        serializer.Serialize(xmlWriter, amendmentRequestXML, namespaces);
                         serializedXML = stringWriter.ToString();
                     }
                 }
@@ -75,10 +75,10 @@ namespace LaxmiSunriseBank.API.APIServices
                 {
                     if (apiResponseData.IsSuccess)
                     {
-                        var serializer1 = new XmlSerializer(typeof(AmendmentResponseModelXML.Envelope));
+                        var deserializer = new XmlSerializer(typeof(AmendmentResponseModelXML.Envelope));
                         using (var reader = new StringReader(apiResponseData.Response))
                         {
-                            var responseModel = (AmendmentResponseModelXML.Envelope)serializer1.Deserialize(reader);
+                            var responseModel = (AmendmentResponseModelXML.Envelope)deserializer.Deserialize(reader);
                             response.IsSuccess = true;
                             response.AmendmentRequestResult = responseModel.Body?.AmendmentRequestResponse?.AmendmentRequestResult;
                         }
@@ -107,11 +107,11 @@ namespace LaxmiSunriseBank.API.APIServices
             AgentListResponse response = new AgentListResponse();
             try
             {
-                var purposeRequestXML = new SourceRequestModelXML.Envelope
+                var agentListRequestXML = new AgentListRequestModelXML.Envelope
                 {
-                    Body = new SourceRequestModelXML.Body
+                    Body = new AgentListRequestModelXML.Body
                     {
-                        GetAgentList = new SourceRequestModelXML.GetAgentList
+                        GetAgentList = new AgentListRequestModelXML.GetAgentList
                         {
                             AGENT_CODE = agentListRequestModel.AgentCode,
                             USER_ID = agentListRequestModel.UserId,
@@ -124,7 +124,7 @@ namespace LaxmiSunriseBank.API.APIServices
                 };
 
                 string serializedXML = string.Empty;
-                XmlSerializer serializer = new XmlSerializer(typeof(SourceRequestModelXML.Envelope));
+                XmlSerializer serializer = new XmlSerializer(typeof(AgentListRequestModelXML.Envelope));
                 var namespaces = new XmlSerializerNamespaces();
                 namespaces.Add("soapenv", "http://schemas.xmlsoap.org/soap/envelope/");
                 namespaces.Add("tem", "http://tempuri.org/");
@@ -133,7 +133,7 @@ namespace LaxmiSunriseBank.API.APIServices
                 {
                     using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
                     {
-                        serializer.Serialize(xmlWriter, purposeRequestXML, namespaces);
+                        serializer.Serialize(xmlWriter, agentListRequestXML, namespaces);
                         serializedXML = stringWriter.ToString();
                     }
                 }
@@ -172,11 +172,11 @@ namespace LaxmiSunriseBank.API.APIServices
             BankListResponse response = new BankListResponse();
             try
             {
-                var bankListRequestXML = new SourceRequestModelXML.Envelope
+                var bankListRequestXML = new BankListRequestModelXML.Envelope
                 {
-                    Body = new SourceRequestModelXML.Body
+                    Body = new BankListRequestModelXML.Body
                     {
-                        GetBankList = new SourceRequestModelXML.GetBankList
+                        GetBankList = new BankListRequestModelXML.GetBankList
                         {
                             AGENT_CODE = bankListRequestModel.AgentCode,
                             USER_ID = bankListRequestModel.UserId,
@@ -187,7 +187,7 @@ namespace LaxmiSunriseBank.API.APIServices
                 };
 
                 string serializedXML = string.Empty;
-                XmlSerializer serializer = new XmlSerializer(typeof(SourceRequestModelXML.Envelope));
+                XmlSerializer serializer = new XmlSerializer(typeof(BankListRequestModelXML.Envelope));
                 var namespaces = new XmlSerializerNamespaces();
                 namespaces.Add("soapenv", "http://schemas.xmlsoap.org/soap/envelope/");
                 namespaces.Add("tem", "http://tempuri.org/");
@@ -206,17 +206,13 @@ namespace LaxmiSunriseBank.API.APIServices
                 {
                     if (apiResponseData.IsSuccess)
                     {
-                        var serializer1 = new XmlSerializer(typeof(BankListResponseModelXML.Envelope));
+                        var deserializer = new XmlSerializer(typeof(BankListResponseModelXML.Envelope));
                         using (var reader = new StringReader(apiResponseData.Response))
                         {
-                            var responseModel = (BankListResponseModelXML.Envelope)serializer1.Deserialize(reader);
+                            var responseModel = (BankListResponseModelXML.Envelope)deserializer.Deserialize(reader);
                             response.IsSuccess = true;
                             response.BankList = responseModel.Body?.GetBankListResponse?.GetBankListResult?.Return_BankList;
                         }
-
-                        //var responseModel = _mapper.Map<List<BankListResponseModel>>(apiResponseData?.ResponseData?.Body?.GetBankListResponse?.GetBankListResult?.Return_BANKLIST);
-                        //response.IsSuccess = true;
-                        //response.BankList = responseModel;
                     }
 
                 }
@@ -238,11 +234,11 @@ namespace LaxmiSunriseBank.API.APIServices
             CurrentBalanceResponse response = new CurrentBalanceResponse();
             try
             {
-                var bankListRequestXML = new SourceRequestModelXML.Envelope
+                var currentBalanceRequestXML = new CurrentBalanceRequestModelXML.Envelope
                 {
-                    Body = new SourceRequestModelXML.Body
+                    Body = new CurrentBalanceRequestModelXML.Body
                     {
-                        GetCurrentBalance = new SourceRequestModelXML.GetCurrentBalanceRequest
+                        GetCurrentBalance = new CurrentBalanceRequestModelXML.GetCurrentBalanceRequest
                         {
                             AgentCode = currentBalanceRequestModel.AgentCode,
                             UserId = currentBalanceRequestModel.UserId,
@@ -253,7 +249,7 @@ namespace LaxmiSunriseBank.API.APIServices
                 };
 
                 string serializedXML = string.Empty;
-                XmlSerializer serializer = new XmlSerializer(typeof(SourceRequestModelXML.Envelope));
+                XmlSerializer serializer = new XmlSerializer(typeof(CurrentBalanceRequestModelXML.Envelope));
                 var namespaces = new XmlSerializerNamespaces();
                 namespaces.Add("soapenv", "http://schemas.xmlsoap.org/soap/envelope/");
                 namespaces.Add("tem", "http://tempuri.org/");
@@ -262,7 +258,7 @@ namespace LaxmiSunriseBank.API.APIServices
                 {
                     using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
                     {
-                        serializer.Serialize(xmlWriter, bankListRequestXML, namespaces);
+                        serializer.Serialize(xmlWriter, currentBalanceRequestXML, namespaces);
                         serializedXML = stringWriter.ToString();
                     }
                 }
@@ -272,17 +268,13 @@ namespace LaxmiSunriseBank.API.APIServices
                 {
                     if (apiResponseData.IsSuccess)
                     {
-                        var serializer1 = new XmlSerializer(typeof(CurrentBalanceResponseModelXML.Envelope));
+                        var deserializer = new XmlSerializer(typeof(CurrentBalanceResponseModelXML.Envelope));
                         using (var reader = new StringReader(apiResponseData.Response))
                         {
-                            var responseModel = (CurrentBalanceResponseModelXML.Envelope)serializer1.Deserialize(reader);
+                            var responseModel = (CurrentBalanceResponseModelXML.Envelope)deserializer.Deserialize(reader);
                             response.IsSuccess = true;
                             response.GetCurrentBalanceResult = responseModel.Body?.GetCurrentBalanceResponse?.GetCurrentBalanceResult;
                         }
-
-                        //var responseModel = _mapper.Map<List<BankListResponseModel>>(apiResponseData?.ResponseData?.Body?.GetBankListResponse?.GetBankListResult?.Return_BANKLIST);
-                        //response.IsSuccess = true;
-                        //response.BankList = responseModel;
                     }
 
                 }
@@ -304,11 +296,11 @@ namespace LaxmiSunriseBank.API.APIServices
             EchoResponseModel response = new EchoResponseModel();
             try
             {
-                var purposeRequestXML = new SourceRequestModelXML.Envelope
+                var echoRequestXML = new EchoRequestModelXML.Envelope
                 {
-                    Body = new SourceRequestModelXML.Body
+                    Body = new EchoRequestModelXML.Body
                     {
-                        GetEcho = new SourceRequestModelXML.GetEcho
+                        GetEcho = new EchoRequestModelXML.GetEcho
                         {
                             AGENT_CODE = echoRequestModel.AgentCode,
                             USER_ID = echoRequestModel.UserId,
@@ -319,7 +311,7 @@ namespace LaxmiSunriseBank.API.APIServices
                 };
 
                 string serializedXML = string.Empty;
-                XmlSerializer serializer = new XmlSerializer(typeof(SourceRequestModelXML.Envelope));
+                XmlSerializer serializer = new XmlSerializer(typeof(EchoRequestModelXML.Envelope));
                 var namespaces = new XmlSerializerNamespaces();
                 namespaces.Add("soapenv", "http://schemas.xmlsoap.org/soap/envelope/");
                 namespaces.Add("tem", "http://tempuri.org/");
@@ -328,7 +320,7 @@ namespace LaxmiSunriseBank.API.APIServices
                 {
                     using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
                     {
-                        serializer.Serialize(xmlWriter, purposeRequestXML, namespaces);
+                        serializer.Serialize(xmlWriter, echoRequestXML, namespaces);
                         serializedXML = stringWriter.ToString();
                     }
                 }
@@ -342,8 +334,6 @@ namespace LaxmiSunriseBank.API.APIServices
                         response.IsSuccess = true;
                         response.GetEchoResult = responseModel.Body?.GetEchoResponse?.GetEchoResult;
                     }
-                    //response = _mapper.Map<EchoResponseModel>(apiResponseData?.ResponseData?.Body?.GetEcho);
-                    //response.IsSuccess = true;
                 }
                 else
                 {
@@ -369,11 +359,11 @@ namespace LaxmiSunriseBank.API.APIServices
             ExRateResponse response = new ExRateResponse();
             try
             {
-                var bankListRequestXML = new SourceRequestModelXML.Envelope
+                var exRateRequestXML = new ExRateRequestModelXML.Envelope
                 {
-                    Body = new SourceRequestModelXML.Body
+                    Body = new ExRateRequestModelXML.Body
                     {
-                        GetEXRate = new SourceRequestModelXML.GetEXRateRequest
+                        GetEXRate = new ExRateRequestModelXML.GetEXRateRequest
                         {
                             AgentCode = exRateRequestModel.AgentCode,
                             UserId = exRateRequestModel.UserId,
@@ -389,7 +379,7 @@ namespace LaxmiSunriseBank.API.APIServices
                 };
 
                 string serializedXML = string.Empty;
-                XmlSerializer serializer = new XmlSerializer(typeof(SourceRequestModelXML.Envelope));
+                XmlSerializer serializer = new XmlSerializer(typeof(ExRateRequestModelXML.Envelope));
                 var namespaces = new XmlSerializerNamespaces();
                 namespaces.Add("soapenv", "http://schemas.xmlsoap.org/soap/envelope/");
                 namespaces.Add("tem", "http://tempuri.org/");
@@ -398,7 +388,7 @@ namespace LaxmiSunriseBank.API.APIServices
                 {
                     using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
                     {
-                        serializer.Serialize(xmlWriter, bankListRequestXML, namespaces);
+                        serializer.Serialize(xmlWriter, exRateRequestXML, namespaces);
                         serializedXML = stringWriter.ToString();
                     }
                 }
@@ -408,17 +398,13 @@ namespace LaxmiSunriseBank.API.APIServices
                 {
                     if (apiResponseData.IsSuccess)
                     {
-                        var serializer1 = new XmlSerializer(typeof(ExRateResponseModelXML.Envelope));
+                        var deserializer = new XmlSerializer(typeof(ExRateResponseModelXML.Envelope));
                         using (var reader = new StringReader(apiResponseData.Response))
                         {
-                            var responseModel = (ExRateResponseModelXML.Envelope)serializer1.Deserialize(reader);
+                            var responseModel = (ExRateResponseModelXML.Envelope)deserializer.Deserialize(reader);
                             response.IsSuccess = true;
                             response.GetEXRateResult = responseModel.Body?.GetEXRateResponse?.GetEXRateResult;
                         }
-
-                        //var responseModel = _mapper.Map<List<BankListResponseModel>>(apiResponseData?.ResponseData?.Body?.GetBankListResponse?.GetBankListResult?.Return_BANKLIST);
-                        //response.IsSuccess = true;
-                        //response.BankList = responseModel;
                     }
 
                 }
