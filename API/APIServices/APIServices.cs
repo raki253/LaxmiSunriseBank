@@ -164,6 +164,68 @@ namespace LaxmiSunriseBank.API.APIServices
             }
         }
 
+        public async Task<CancelTransactionResponseModel> CancelTransaction(CancelTransactionRequestModel cancelTransactionRequestModel)
+        {
+            CancelTransactionResponseModel response = new CancelTransactionResponseModel();
+
+            var mapper = _mapper.Map<CancelTransactionRequestModelXML.CancelTransaction>(cancelTransactionRequestModel);
+            try
+            {
+                var cancelTransactionRequestXML = new CancelTransactionRequestModelXML.Envelope
+                {
+                    Body = new CancelTransactionRequestModelXML.Body
+                    {
+                        CancelTransaction = mapper
+                    }
+                };
+
+                string serializedXML = string.Empty;
+                XmlSerializer serializer = new XmlSerializer(typeof(CancelTransactionRequestModelXML.Envelope));
+                var namespaces = new XmlSerializerNamespaces();
+                namespaces.Add("soapenv", "http://schemas.xmlsoap.org/soap/envelope/");
+                namespaces.Add("tem", "http://tempuri.org/");
+                var settings = new XmlWriterSettings { OmitXmlDeclaration = true };
+                using (StringWriter stringWriter = new StringWriter())
+                {
+                    using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
+                    {
+                        serializer.Serialize(xmlWriter, cancelTransactionRequestXML, namespaces);
+                        serializedXML = stringWriter.ToString();
+                    }
+                }
+                var apiResponseData = await _apiHandler.SOAPPostCall<CancelTransactionResponseModelXML.Envelope>("https://sunrise.iremit.com.my/SendWSV5/txnservice.asmx", serializedXML);
+
+                if (apiResponseData.IsSuccess)
+                {
+                    if (apiResponseData.IsSuccess)
+                    {
+                        var deserializer = new XmlSerializer(typeof(CancelTransactionResponseModelXML.Envelope));
+                        using (var reader = new StringReader(apiResponseData.Response))
+                        {
+                            var responseModel = (CancelTransactionResponseModelXML.Envelope)deserializer.Deserialize(reader);
+                            response.IsSuccess = true;
+                            response.CancelTransactionResult = responseModel.Body?.CancelTransactionResponse?.CancelTransactionResult;
+                        }
+
+                        //var responseModel = _mapper.Map<List<BankListResponseModel>>(apiResponseData?.ResponseData?.Body?.GetBankListResponse?.GetBankListResult?.Return_BANKLIST);
+                        //response.IsSuccess = true;
+                        //response.BankList = responseModel;
+                    }
+
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                if (ex.Message.Contains("Timeout"))
+                {
+                    response.TimeOut = true;
+                }
+                return response;
+            }
+        }
+
         public async Task<AgentListResponse> GetAgentList(AgentListRequestModel agentListRequestModel)
         {
             AgentListResponse response = new AgentListResponse();

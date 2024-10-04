@@ -11,6 +11,8 @@ namespace LaxmiSunriseBank.Services.Models.Mapper
         {
             CreateMap<AgentListResponseModelXML.ReturnAgentList, AgentListResponseModel>().ReverseMap();
             CreateMap<ReconcileReportRequestModel, ReconcileReportRequestModelXML.ReconcileReportRequest>().ReverseMap();
+            CreateMap<CancelTransactionRequestModel, CancelTransactionRequestModelXML.CancelTransaction>().ReverseMap();
+
             //CreateMap<ReturnBankList, BankListResponseModel>().ReverseMap();
 
             //CreateMap<ReturnBankList, List<BankListResponseModel>>().ReverseMap();

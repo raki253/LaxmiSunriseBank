@@ -24,6 +24,8 @@ namespace LaxmiSunriseBank.API.APIServices
 
         public Task<AuthorizedConfirmedResponseModel> AuthorisedConfirmRequest(AuthorizedConfirmedRequestModel authorizedConfirmedRequestModel);
 
+        public Task<CancelTransactionResponseModel> CancelTransaction(CancelTransactionRequestModel cancelTransactionRequestModel);
+
         public Task<ReconcileReportResponseModel> ReconcileReport(ReconcileReportRequestModel reconcileReportRequestModel);  
     }
 }
