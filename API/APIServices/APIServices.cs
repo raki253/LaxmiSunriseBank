@@ -140,12 +140,10 @@ namespace LaxmiSunriseBank.API.APIServices
                 var apiResponseData = await _apiHandler.SOAPPostCall<AgentListResponseModelXML.Envelope>("https://sunrise.iremit.com.my/SendWSV5/txnservice.asmx", serializedXML);
                 if (apiResponseData.IsSuccess)
                 {
-                    var serializer1 = new XmlSerializer(typeof(AgentListResponseModelXML.Envelope));
+                    var deserializer = new XmlSerializer(typeof(AgentListResponseModelXML.Envelope));
                     using (var reader = new StringReader(apiResponseData.Response))
                     {
-                        var responseModel = (AgentListResponseModelXML.Envelope)serializer1.Deserialize(reader);
-                        response.IsSuccess = true;
-                        //var responseModel = _mapper.Map<List<AgentListResponseModel>>(apiResponseData?.ResponseData?.Body?.GetAgentListResponse?.GetAgentListResult?.Return_AGENTLIST);
+                        var responseModel = (AgentListResponseModelXML.Envelope)deserializer.Deserialize(reader);
                         response.IsSuccess = true;
                         response.AgentList = responseModel.Body?.GetAgentListResponse?.GetAgentListResult?.Return_AGENTLIST;
                     }
