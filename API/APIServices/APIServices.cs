@@ -421,6 +421,68 @@ namespace LaxmiSunriseBank.API.APIServices
             }
         }
 
+        public async Task<ReconcileReportResponseModel> ReconcileReport(ReconcileReportRequestModel reconcileReportRequestModel)
+        {
+            ReconcileReportResponseModel response = new ReconcileReportResponseModel();
+
+            var reconcileMapper = _mapper.Map<ReconcileReportRequestModelXML.ReconcileReportRequest>(reconcileReportRequestModel);
+            try
+            {
+                var amendmentRequestXML = new ReconcileReportRequestModelXML.Envelope
+                {
+                    Body = new ReconcileReportRequestModelXML.Body
+                    {
+                        ReconcileReport = reconcileMapper
+                    }
+                };
+
+                string serializedXML = string.Empty;
+                XmlSerializer serializer = new XmlSerializer(typeof(ReconcileReportRequestModelXML.Envelope));
+                var namespaces = new XmlSerializerNamespaces();
+                namespaces.Add("soapenv", "http://schemas.xmlsoap.org/soap/envelope/");
+                namespaces.Add("tem", "http://tempuri.org/");
+                var settings = new XmlWriterSettings { OmitXmlDeclaration = true };
+                using (StringWriter stringWriter = new StringWriter())
+                {
+                    using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
+                    {
+                        serializer.Serialize(xmlWriter, amendmentRequestXML, namespaces);
+                        serializedXML = stringWriter.ToString();
+                    }
+                }
+                var apiResponseData = await _apiHandler.SOAPPostCall<ReconcileReportResponseModelXML.Envelope>("https://sunrise.iremit.com.my/SendWSV5/txnservice.asmx", serializedXML);
+
+                if (apiResponseData.IsSuccess)
+                {
+                    if (apiResponseData.IsSuccess)
+                    {
+                        var deserializer = new XmlSerializer(typeof(ReconcileReportResponseModelXML.Envelope));
+                        using (var reader = new StringReader(apiResponseData.Response))
+                        {
+                            var responseModel = (ReconcileReportResponseModelXML.Envelope)deserializer.Deserialize(reader);
+                            response.IsSuccess = true;
+                            response.ReturnTransReport = responseModel.Body?.ReconcileReportResponse?.ReconcileReportResult?.ReturnTransReport;
+                        }
+
+                        //var responseModel = _mapper.Map<List<BankListResponseModel>>(apiResponseData?.ResponseData?.Body?.GetBankListResponse?.GetBankListResult?.Return_BANKLIST);
+                        //response.IsSuccess = true;
+                        //response.BankList = responseModel;
+                    }
+
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                if (ex.Message.Contains("Timeout"))
+                {
+                    response.TimeOut = true;
+                }
+                return response;
+            }
+        }
+
         public async Task<SendTransactionResponseModel> SendTransactionRequest(SendTransactionRequestModel sendTransactionRequestModel)
         {
             SendTransactionResponseModel response = new SendTransactionResponseModel();

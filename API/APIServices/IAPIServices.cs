@@ -21,5 +21,7 @@ namespace LaxmiSunriseBank.API.APIServices
         public Task<AmendmentResponse> AmendmentRequest(AmendmentRequestModel amendmentRequestModel);
 
         public Task<SendTransactionResponseModel> SendTransactionRequest(SendTransactionRequestModel sendTransactionRequestModel);
+
+        public Task<ReconcileReportResponseModel> ReconcileReport(ReconcileReportRequestModel reconcileReportRequestModel);  
     }
 }
