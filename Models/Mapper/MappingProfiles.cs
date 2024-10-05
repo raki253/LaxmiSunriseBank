@@ -9,7 +9,7 @@ namespace LaxmiSunriseBank.Services.Models.Mapper
     {
         public MappingProfiles()
         {
-            CreateMap<AgentListResponseModelXML.ReturnAgentList, AgentListResponseModel>().ReverseMap();
+            CreateMap<AgentListRequestModelXML.GetAgentList, AgentListRequestModel>().ReverseMap();
             CreateMap<ReconcileReportRequestModel, ReconcileReportRequestModelXML.ReconcileReportRequest>().ReverseMap();
             CreateMap<CancelTransactionRequestModel, CancelTransactionRequestModelXML.CancelTransaction>().ReverseMap();
             CreateMap<BankListRequestModel, BankListRequestModelXML.GetBankList>().ReverseMap();
@@ -19,6 +19,8 @@ namespace LaxmiSunriseBank.Services.Models.Mapper
             CreateMap<ExRateRequestModel, ExRateRequestModelXML.GetEXRateRequest>().ReverseMap();
             CreateMap<SendTransactionRequestModel, SendTransactionRequestModelXML.SendTransaction>().ReverseMap();
             CreateMap<AuthorizedConfirmedRequestModel, AuthorizedConfirmedRequestModelXML.AuthorizedConfirmModel>().ReverseMap();
+            CreateMap<QueryTXNStatusRequestModel, QueryTXNStatusRequestModelXML.QueryTXNStatusRequest>().ReverseMap();
+
 
             //CreateMap<ReturnBankList, BankListResponseModel>().ReverseMap();
 

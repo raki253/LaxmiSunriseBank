@@ -30,7 +30,7 @@ namespace LaxmiSunriseBank.API.APIServices
         /// <param name="logger"></param>
         /// <param name="mapper"></param>
         /// <param name="apiHandler"></param>
-        public APIServices(IAPIHandler apiHandler, IMapper mapper,ICommonUtility commonUtility)
+        public APIServices(IAPIHandler apiHandler, IMapper mapper, ICommonUtility commonUtility)
         {
             _apiHandler = apiHandler;
             _mapper = mapper;
@@ -110,7 +110,7 @@ namespace LaxmiSunriseBank.API.APIServices
         {
             AuthorizedConfirmedResponseModel response = new AuthorizedConfirmedResponseModel();
             var mappedRequestModel = _mapper.Map<AuthorizedConfirmedRequestModelXML.AuthorizedConfirmModel>(authorizedConfirmedRequestModel);
-            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(authorizedConfirmedRequestModel.AgentCode, authorizedConfirmedRequestModel.UserId, authorizedConfirmedRequestModel.PinNo, authorizedConfirmedRequestModel.AgentSessionId, apiPassword); 
+            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(authorizedConfirmedRequestModel.AgentCode, authorizedConfirmedRequestModel.UserId, authorizedConfirmedRequestModel.PinNo, authorizedConfirmedRequestModel.AgentSessionId, apiPassword);
             try
             {
                 var currentBalanceRequestXML = new AuthorizedConfirmedRequestModelXML.Envelope
@@ -466,7 +466,7 @@ namespace LaxmiSunriseBank.API.APIServices
         {
             ExRateResponse response = new ExRateResponse();
             var mappedRequestModel = _mapper.Map<ExRateRequestModelXML.GetEXRateRequest>(exRateRequestModel);
-            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(exRateRequestModel.AgentCode, exRateRequestModel.UserId, exRateRequestModel.AgentSessionId, exRateRequestModel.TransferAmount, exRateRequestModel.PaymentMode, exRateRequestModel.CalcBy, exRateRequestModel.LocationId, exRateRequestModel.PayoutCountry,apiPassword);
+            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(exRateRequestModel.AgentCode, exRateRequestModel.UserId, exRateRequestModel.AgentSessionId, exRateRequestModel.TransferAmount, exRateRequestModel.PaymentMode, exRateRequestModel.CalcBy, exRateRequestModel.LocationId, exRateRequestModel.PayoutCountry, apiPassword);
 
             try
             {
@@ -507,6 +507,60 @@ namespace LaxmiSunriseBank.API.APIServices
                         }
                     }
 
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                if (ex.Message.Contains("Timeout"))
+                {
+                    response.TimeOut = true;
+                }
+                return response;
+            }
+        }
+
+        public async Task<QueryTXNStatusResponseModel> QueryTXNStatus(QueryTXNStatusRequestModel queryTXNStatusRequestModel)
+        {
+            QueryTXNStatusResponseModel response = new QueryTXNStatusResponseModel();
+            var mappedRequestModel = _mapper.Map<QueryTXNStatusRequestModelXML.QueryTXNStatusRequest>(queryTXNStatusRequestModel);
+            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(queryTXNStatusRequestModel.AgentCode, queryTXNStatusRequestModel.UserId, queryTXNStatusRequestModel.PinNo, queryTXNStatusRequestModel.AgentSessionId, queryTXNStatusRequestModel.AgentTxnId, apiPassword);
+            try
+            {
+                var queryTXNStatusRequestXML = new QueryTXNStatusRequestModelXML.Envelope
+                {
+                    Body = new QueryTXNStatusRequestModelXML.Body
+                    {
+                        QueryTXNStatus = mappedRequestModel
+                    }
+                };
+
+                string serializedXML = string.Empty;
+                XmlSerializer serializer = new XmlSerializer(typeof(QueryTXNStatusRequestModelXML.Envelope));
+                var namespaces = new XmlSerializerNamespaces();
+                namespaces.Add("soapenv", "http://schemas.xmlsoap.org/soap/envelope/");
+                namespaces.Add("tem", "http://tempuri.org/");
+                var settings = new XmlWriterSettings { OmitXmlDeclaration = true };
+                using (StringWriter stringWriter = new StringWriter())
+                {
+                    using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
+                    {
+                        serializer.Serialize(xmlWriter, queryTXNStatusRequestXML, namespaces);
+                        serializedXML = stringWriter.ToString();
+                    }
+                }
+                var apiResponseData = await _apiHandler.SOAPPostCall<QueryTXNStatusResponseModelXML.Envelope>("https://sunrise.iremit.com.my/SendWSV5/txnservice.asmx", serializedXML);
+
+                if (apiResponseData.IsSuccess)
+                {
+                    var deserializer = new XmlSerializer(typeof(QueryTXNStatusResponseModelXML.Envelope));
+                    using (var reader = new StringReader(apiResponseData.Response))
+                    {
+                        var responseModel = (QueryTXNStatusResponseModelXML.Envelope)deserializer.Deserialize(reader);
+                        response.IsSuccess = true;
+                        response.QueryTXNStatusResult = responseModel.Body?.QueryTXNStatusResponse?.QueryTXNStatusResult;
+                    }
                 }
                 return response;
             }
@@ -588,7 +642,7 @@ namespace LaxmiSunriseBank.API.APIServices
         {
             SendTransactionResponseModel response = new SendTransactionResponseModel();
             var mappedRequestModel = _mapper.Map<SendTransactionRequestModelXML.SendTransaction>(sendTransactionRequestModel);
-            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(sendTransactionRequestModel.AgentCode, sendTransactionRequestModel.UserId, sendTransactionRequestModel.AgentSessionId, sendTransactionRequestModel.AgentTxnId, sendTransactionRequestModel.LocationId, sendTransactionRequestModel.SenderFirstName, sendTransactionRequestModel.SenderMiddleName, sendTransactionRequestModel.SenderLastName, sendTransactionRequestModel.SenderGender, sendTransactionRequestModel.SenderAddress, sendTransactionRequestModel.SenderCity, sendTransactionRequestModel.SenderCountry, sendTransactionRequestModel.SenderIdType, sendTransactionRequestModel.SenderIdNumber, sendTransactionRequestModel.SenderIdIssueDate, sendTransactionRequestModel.SenderIdExpireDate, sendTransactionRequestModel.SenderDateOfBirth, sendTransactionRequestModel.SenderMobile, sendTransactionRequestModel.SourceOfFund, sendTransactionRequestModel.SenderOccupation, sendTransactionRequestModel.SenderNationality, sendTransactionRequestModel.ReceiverFirstName, sendTransactionRequestModel.ReceiverMiddleName, sendTransactionRequestModel.ReceiverLastName, sendTransactionRequestModel.ReceiverAddress, sendTransactionRequestModel.ReceiverCity, sendTransactionRequestModel.ReceiverCountry, sendTransactionRequestModel.ReceiverContactNumber, sendTransactionRequestModel.RelationshipToBeneficiary, sendTransactionRequestModel.PaymentMode, sendTransactionRequestModel.BankId, sendTransactionRequestModel.BankName, sendTransactionRequestModel.BankBranchName, sendTransactionRequestModel.BankAccountNumber, sendTransactionRequestModel.CalcBy, sendTransactionRequestModel.TransferAmount.ToString(), sendTransactionRequestModel.OurServiceCharge.ToString(), sendTransactionRequestModel.TransactionExchangeRate.ToString(), sendTransactionRequestModel.SettlementDollarRate.ToString(), sendTransactionRequestModel.PurposeOfRemittance, sendTransactionRequestModel.AuthorizedRequired,apiPassword);
+            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(sendTransactionRequestModel.AgentCode, sendTransactionRequestModel.UserId, sendTransactionRequestModel.AgentSessionId, sendTransactionRequestModel.AgentTxnId, sendTransactionRequestModel.LocationId, sendTransactionRequestModel.SenderFirstName, sendTransactionRequestModel.SenderMiddleName, sendTransactionRequestModel.SenderLastName, sendTransactionRequestModel.SenderGender, sendTransactionRequestModel.SenderAddress, sendTransactionRequestModel.SenderCity, sendTransactionRequestModel.SenderCountry, sendTransactionRequestModel.SenderIdType, sendTransactionRequestModel.SenderIdNumber, sendTransactionRequestModel.SenderIdIssueDate, sendTransactionRequestModel.SenderIdExpireDate, sendTransactionRequestModel.SenderDateOfBirth, sendTransactionRequestModel.SenderMobile, sendTransactionRequestModel.SourceOfFund, sendTransactionRequestModel.SenderOccupation, sendTransactionRequestModel.SenderNationality, sendTransactionRequestModel.ReceiverFirstName, sendTransactionRequestModel.ReceiverMiddleName, sendTransactionRequestModel.ReceiverLastName, sendTransactionRequestModel.ReceiverAddress, sendTransactionRequestModel.ReceiverCity, sendTransactionRequestModel.ReceiverCountry, sendTransactionRequestModel.ReceiverContactNumber, sendTransactionRequestModel.RelationshipToBeneficiary, sendTransactionRequestModel.PaymentMode, sendTransactionRequestModel.BankId, sendTransactionRequestModel.BankName, sendTransactionRequestModel.BankBranchName, sendTransactionRequestModel.BankAccountNumber, sendTransactionRequestModel.CalcBy, sendTransactionRequestModel.TransferAmount.ToString(), sendTransactionRequestModel.OurServiceCharge.ToString(), sendTransactionRequestModel.TransactionExchangeRate.ToString(), sendTransactionRequestModel.SettlementDollarRate.ToString(), sendTransactionRequestModel.PurposeOfRemittance, sendTransactionRequestModel.AuthorizedRequired, apiPassword);
             try
             {
                 var sendTransactionRequestXML = new SendTransactionRequestModelXML.Envelope
