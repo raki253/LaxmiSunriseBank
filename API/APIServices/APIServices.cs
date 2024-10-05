@@ -525,15 +525,15 @@ namespace LaxmiSunriseBank.API.APIServices
         {
             ReconcileReportResponseModel response = new ReconcileReportResponseModel();
 
-            var reconcileMapper = _mapper.Map<ReconcileReportRequestModelXML.ReconcileReportRequest>(reconcileReportRequestModel);
-            reconcileMapper.Signature = await _commonUtility.GenerateSHA256Signature(reconcileReportRequestModel.AgentCode, reconcileReportRequestModel.UserId, reconcileReportRequestModel.AgentSessionId, reconcileReportRequestModel.ReportType, reconcileReportRequestModel.FromDate, reconcileReportRequestModel.FromDateTime, reconcileReportRequestModel.ToDate, reconcileReportRequestModel.ToDateTime, reconcileReportRequestModel.ShowIncremental, apiPassword);
+            var mappedRequestModel = _mapper.Map<ReconcileReportRequestModelXML.ReconcileReportRequest>(reconcileReportRequestModel);
+            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(reconcileReportRequestModel.AgentCode, reconcileReportRequestModel.UserId, reconcileReportRequestModel.AgentSessionId, reconcileReportRequestModel.ReportType, reconcileReportRequestModel.FromDate, reconcileReportRequestModel.FromDateTime, reconcileReportRequestModel.ToDate, reconcileReportRequestModel.ToDateTime, reconcileReportRequestModel.ShowIncremental, apiPassword);
             try
             {
                 var amendmentRequestXML = new ReconcileReportRequestModelXML.Envelope
                 {
                     Body = new ReconcileReportRequestModelXML.Body
                     {
-                        ReconcileReport = reconcileMapper
+                        ReconcileReport = mappedRequestModel
                     }
                 };
 
@@ -587,53 +587,15 @@ namespace LaxmiSunriseBank.API.APIServices
         public async Task<SendTransactionResponseModel> SendTransactionRequest(SendTransactionRequestModel sendTransactionRequestModel)
         {
             SendTransactionResponseModel response = new SendTransactionResponseModel();
+            var mappedRequestModel = _mapper.Map<SendTransactionRequestModelXML.SendTransaction>(sendTransactionRequestModel);
+            mappedRequestModel.Signature = await _commonUtility.GenerateSHA256Signature(sendTransactionRequestModel.AgentCode, sendTransactionRequestModel.UserId, sendTransactionRequestModel.AgentSessionId, sendTransactionRequestModel.AgentTxnId, sendTransactionRequestModel.LocationId, sendTransactionRequestModel.SenderFirstName, sendTransactionRequestModel.SenderMiddleName, sendTransactionRequestModel.SenderLastName, sendTransactionRequestModel.SenderGender, sendTransactionRequestModel.SenderAddress, sendTransactionRequestModel.SenderCity, sendTransactionRequestModel.SenderCountry, sendTransactionRequestModel.SenderIdType, sendTransactionRequestModel.SenderIdNumber, sendTransactionRequestModel.SenderIdIssueDate, sendTransactionRequestModel.SenderIdExpireDate, sendTransactionRequestModel.SenderDateOfBirth, sendTransactionRequestModel.SenderMobile, sendTransactionRequestModel.SourceOfFund, sendTransactionRequestModel.SenderOccupation, sendTransactionRequestModel.SenderNationality, sendTransactionRequestModel.ReceiverFirstName, sendTransactionRequestModel.ReceiverMiddleName, sendTransactionRequestModel.ReceiverLastName, sendTransactionRequestModel.ReceiverAddress, sendTransactionRequestModel.ReceiverCity, sendTransactionRequestModel.ReceiverCountry, sendTransactionRequestModel.ReceiverContactNumber, sendTransactionRequestModel.RelationshipToBeneficiary, sendTransactionRequestModel.PaymentMode, sendTransactionRequestModel.BankId, sendTransactionRequestModel.BankName, sendTransactionRequestModel.BankBranchName, sendTransactionRequestModel.BankAccountNumber, sendTransactionRequestModel.CalcBy, sendTransactionRequestModel.TransferAmount.ToString(), sendTransactionRequestModel.OurServiceCharge.ToString(), sendTransactionRequestModel.TransactionExchangeRate.ToString(), sendTransactionRequestModel.SettlementDollarRate.ToString(), sendTransactionRequestModel.PurposeOfRemittance, sendTransactionRequestModel.AuthorizedRequired,apiPassword);
             try
             {
                 var sendTransactionRequestXML = new SendTransactionRequestModelXML.Envelope
                 {
                     Body = new SendTransactionRequestModelXML.Body
                     {
-                        SendTransactionObject = new SendTransactionRequestModelXML.SendTransaction
-                        {
-                            AgentTxnId = sendTransactionRequestModel.AgentTxnId,
-                            AuthorizedRequired = sendTransactionRequestModel.AuthorizedRequired,
-                            BankAccountNumber = sendTransactionRequestModel.BankAccountNumber,
-                            BankBranchName = sendTransactionRequestModel.BankBranchName,
-                            BankId = sendTransactionRequestModel.BankId,
-                            BankName = sendTransactionRequestModel.BankName,
-                            CalcBy = sendTransactionRequestModel.CalcBy,
-                            LocationId = sendTransactionRequestModel.LocationId,
-                            OurServiceCharge = sendTransactionRequestModel.OurServiceCharge,
-                            PaymentMode = sendTransactionRequestModel.PaymentMode,
-                            PurposeOfRemittance = sendTransactionRequestModel.PurposeOfRemittance,
-                            ReceiverAddress = sendTransactionRequestModel.ReceiverAddress,
-                            ReceiverCity = sendTransactionRequestModel.ReceiverCity,
-                            ReceiverContactNumber = sendTransactionRequestModel.ReceiverContactNumber,
-                            ReceiverCountry = sendTransactionRequestModel.ReceiverCountry,
-                            ReceiverFirstName = sendTransactionRequestModel.ReceiverFirstName,
-                            ReceiverLastName = sendTransactionRequestModel.ReceiverLastName,
-                            ReceiverMiddleName = sendTransactionRequestModel.ReceiverMiddleName,
-                            RelationshipToBeneficiary = sendTransactionRequestModel.RelationshipToBeneficiary,
-                            SenderAddress = sendTransactionRequestModel.SenderAddress,
-                            SenderCity = sendTransactionRequestModel.SenderCity,
-                            SenderCountry = sendTransactionRequestModel.SenderCountry,
-                            SenderDateOfBirth = sendTransactionRequestModel.SenderDateOfBirth,
-                            SenderFirstName = sendTransactionRequestModel.SenderFirstName,
-                            SenderGender = sendTransactionRequestModel.SenderGender,
-                            SenderIdExpireDate = sendTransactionRequestModel.SenderIdExpireDate,
-                            SenderIdIssueDate = sendTransactionRequestModel.SenderIdIssueDate,
-                            SenderIdNumber = sendTransactionRequestModel.SenderIdNumber,
-                            SenderIdType = sendTransactionRequestModel.SenderIdType,
-                            SenderLastName = sendTransactionRequestModel.SenderLastName,
-                            SenderMiddleName = sendTransactionRequestModel.SenderMiddleName,
-                            SenderMobile = sendTransactionRequestModel.SenderMobile,
-                            SenderNationality = sendTransactionRequestModel.SenderNationality,
-                            SenderOccupation = sendTransactionRequestModel.SenderOccupation,
-                            SettlementDollarRate = sendTransactionRequestModel.SettlementDollarRate,
-                            SourceOfFund = sendTransactionRequestModel.SourceOfFund,
-                            TransactionExchangeRate = sendTransactionRequestModel.TransactionExchangeRate,
-                            TransferAmount = sendTransactionRequestModel.TransferAmount
-                        }
+                        SendTransactionObject = mappedRequestModel
                     }
                 };
 

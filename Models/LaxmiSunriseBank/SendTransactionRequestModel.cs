@@ -65,6 +65,19 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
 
         public class SendTransaction
         {
+
+            [XmlElement(ElementName = "AGENT_CODE")]
+            public string? AgentCode { get; set; }
+
+            [XmlElement(ElementName = "USER_ID")]
+            public string? USerId { get; set; }
+
+            [XmlElement(ElementName = "AGENT_SESSION_ID")]
+            public string? AgentSessionId { get; set; }
+
+            [XmlElement(ElementName = "SIGNATURE")]
+            public string? Signature { get; set; }
+
             [XmlElement(ElementName = "AGENT_TXN_ID")]
             public string AgentTxnId { get; set; }
 
@@ -119,10 +132,10 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
             [XmlElement(ElementName = "RELATIONSHIP_TO_BENEFICIARY")]
             public string RelationshipToBeneficiary { get; set; }
 
-            [XmlElement(ElementName = "OUR_SERVICE_CHARGE")]
+            [XmlElement(ElementName = "OURSERVICE_CHARGE")]
             public decimal OurServiceCharge { get; set; }
 
-            [XmlElement(ElementName = "SETTLEMENT_DOLLAR_RATE")]
+            [XmlElement(ElementName = "SETTLEMENT_DOLLARRATE")]
             public decimal SettlementDollarRate { get; set; }
 
             [XmlElement(ElementName = "SENDER_ADDRESS")]
@@ -173,7 +186,7 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
             [XmlElement(ElementName = "SOURCE_OF_FUND")]
             public string SourceOfFund { get; set; }
 
-            [XmlElement(ElementName = "TRANSACTION_EXCHANGE_RATE")]
+            [XmlElement(ElementName = "TRANSACTION_EXCHANGERATE")]
             public decimal TransactionExchangeRate { get; set; }
 
             [XmlElement(ElementName = "TRANSFER_AMOUNT")]
