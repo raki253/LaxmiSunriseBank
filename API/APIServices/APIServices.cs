@@ -22,7 +22,7 @@ namespace LaxmiSunriseBank.API.APIServices
         private readonly IAPIHandler _apiHandler;
         private readonly ICommonUtility _commonUtility;
         private readonly IMapper _mapper;
-        private readonly string apiPassword = "123";
+        private readonly string apiPassword = "FEDERAL1";
 
         /// <summary>
         /// Constructor

@@ -19,7 +19,7 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
             _agentCode = "FED001";
             _userId = "FEDERAL1";
             _agentSessionId = "1298709";
-            _signature = "7d56439f55beff0d0fcd50bc4d887ca24848b676963126a6d317bbb4f377f701";    
+            _signature = "7d56439f55beff0d0fcd50bc4d887ca24848b676963126a6d317bbb4f377f701";
         }
         public string AgentCode
         {

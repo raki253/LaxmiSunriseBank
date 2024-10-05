@@ -38,7 +38,7 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
             public string? USerId { get; set; }
 
             [XmlElement(ElementName = "AGENT_SESSION_ID")]
-            public string? AgentSession { get; set; }
+            public string? AgentSessionId { get; set; }
 
             [XmlElement(ElementName = "SIGNATURE")]
             public string? Signature { get; set; }
