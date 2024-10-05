@@ -75,24 +75,19 @@ namespace LaxmiSunriseBank.API.APIServices
                 }
                 var apiResponseData = await _apiHandler.SOAPPostCall<AmendmentResponseModelXML.Envelope>("https://sunrise.iremit.com.my/SendWSV5/txnservice.asmx", serializedXML);
 
+
                 if (apiResponseData.IsSuccess)
                 {
-                    if (apiResponseData.IsSuccess)
+                    var deserializer = new XmlSerializer(typeof(AmendmentResponseModelXML.Envelope));
+                    using (var reader = new StringReader(apiResponseData.Response))
                     {
-                        var deserializer = new XmlSerializer(typeof(AmendmentResponseModelXML.Envelope));
-                        using (var reader = new StringReader(apiResponseData.Response))
-                        {
-                            var responseModel = (AmendmentResponseModelXML.Envelope)deserializer.Deserialize(reader);
-                            response.IsSuccess = true;
-                            response.AmendmentRequestResult = responseModel.Body?.AmendmentRequestResponse?.AmendmentRequestResult;
-                        }
-
-                        //var responseModel = _mapper.Map<List<BankListResponseModel>>(apiResponseData?.ResponseData?.Body?.GetBankListResponse?.GetBankListResult?.Return_BANKLIST);
-                        //response.IsSuccess = true;
-                        //response.BankList = responseModel;
+                        var responseModel = (AmendmentResponseModelXML.Envelope)deserializer.Deserialize(reader);
+                        response.IsSuccess = true;
+                        response.AmendmentRequestResult = responseModel.Body?.AmendmentRequestResponse?.AmendmentRequestResult;
                     }
 
                 }
+
                 return response;
             }
             catch (Exception ex)
@@ -139,18 +134,16 @@ namespace LaxmiSunriseBank.API.APIServices
 
                 if (apiResponseData.IsSuccess)
                 {
-                    if (apiResponseData.IsSuccess)
+                    var deserializer = new XmlSerializer(typeof(AuthorizedConfirmedResponseModelXML.Envelope));
+                    using (var reader = new StringReader(apiResponseData.Response))
                     {
-                        var deserializer = new XmlSerializer(typeof(AuthorizedConfirmedResponseModelXML.Envelope));
-                        using (var reader = new StringReader(apiResponseData.Response))
-                        {
-                            var responseModel = (AuthorizedConfirmedResponseModelXML.Envelope)deserializer.Deserialize(reader);
-                            response.IsSuccess = true;
-                            response.GetCurrentBalanceResult = responseModel.Body?.AuthorizedConfirmResponse?.AuthorisedConfirmDetails;
-                        }
+                        var responseModel = (AuthorizedConfirmedResponseModelXML.Envelope)deserializer.Deserialize(reader);
+                        response.IsSuccess = true;
+                        response.GetCurrentBalanceResult = responseModel.Body?.AuthorizedConfirmResponse?.AuthorisedConfirmDetails;
                     }
-
                 }
+
+
                 return response;
             }
             catch (Exception ex)
@@ -197,22 +190,17 @@ namespace LaxmiSunriseBank.API.APIServices
 
                 if (apiResponseData.IsSuccess)
                 {
-                    if (apiResponseData.IsSuccess)
+                    var deserializer = new XmlSerializer(typeof(CancelTransactionResponseModelXML.Envelope));
+                    using (var reader = new StringReader(apiResponseData.Response))
                     {
-                        var deserializer = new XmlSerializer(typeof(CancelTransactionResponseModelXML.Envelope));
-                        using (var reader = new StringReader(apiResponseData.Response))
-                        {
-                            var responseModel = (CancelTransactionResponseModelXML.Envelope)deserializer.Deserialize(reader);
-                            response.IsSuccess = true;
-                            response.CancelTransactionResult = responseModel.Body?.CancelTransactionResponse?.CancelTransactionResult;
-                        }
-
-                        //var responseModel = _mapper.Map<List<BankListResponseModel>>(apiResponseData?.ResponseData?.Body?.GetBankListResponse?.GetBankListResult?.Return_BANKLIST);
-                        //response.IsSuccess = true;
-                        //response.BankList = responseModel;
+                        var responseModel = (CancelTransactionResponseModelXML.Envelope)deserializer.Deserialize(reader);
+                        response.IsSuccess = true;
+                        response.CancelTransactionResult = responseModel.Body?.CancelTransactionResponse?.CancelTransactionResult;
                     }
 
                 }
+
+
                 return response;
             }
             catch (Exception ex)
@@ -318,18 +306,16 @@ namespace LaxmiSunriseBank.API.APIServices
 
                 if (apiResponseData.IsSuccess)
                 {
-                    if (apiResponseData.IsSuccess)
+                    var deserializer = new XmlSerializer(typeof(BankListResponseModelXML.Envelope));
+                    using (var reader = new StringReader(apiResponseData.Response))
                     {
-                        var deserializer = new XmlSerializer(typeof(BankListResponseModelXML.Envelope));
-                        using (var reader = new StringReader(apiResponseData.Response))
-                        {
-                            var responseModel = (BankListResponseModelXML.Envelope)deserializer.Deserialize(reader);
-                            response.IsSuccess = true;
-                            response.BankList = responseModel.Body?.GetBankListResponse?.GetBankListResult?.Return_BankList;
-                        }
+                        var responseModel = (BankListResponseModelXML.Envelope)deserializer.Deserialize(reader);
+                        response.IsSuccess = true;
+                        response.BankList = responseModel.Body?.GetBankListResponse?.GetBankListResult?.Return_BankList;
                     }
-
                 }
+
+
                 return response;
             }
             catch (Exception ex)
@@ -377,18 +363,16 @@ namespace LaxmiSunriseBank.API.APIServices
 
                 if (apiResponseData.IsSuccess)
                 {
-                    if (apiResponseData.IsSuccess)
+                    var deserializer = new XmlSerializer(typeof(CurrentBalanceResponseModelXML.Envelope));
+                    using (var reader = new StringReader(apiResponseData.Response))
                     {
-                        var deserializer = new XmlSerializer(typeof(CurrentBalanceResponseModelXML.Envelope));
-                        using (var reader = new StringReader(apiResponseData.Response))
-                        {
-                            var responseModel = (CurrentBalanceResponseModelXML.Envelope)deserializer.Deserialize(reader);
-                            response.IsSuccess = true;
-                            response.GetCurrentBalanceResult = responseModel.Body?.GetCurrentBalanceResponse?.GetCurrentBalanceResult;
-                        }
+                        var responseModel = (CurrentBalanceResponseModelXML.Envelope)deserializer.Deserialize(reader);
+                        response.IsSuccess = true;
+                        response.GetCurrentBalanceResult = responseModel.Body?.GetCurrentBalanceResponse?.GetCurrentBalanceResult;
                     }
-
                 }
+
+
                 return response;
             }
             catch (Exception ex)
@@ -496,18 +480,16 @@ namespace LaxmiSunriseBank.API.APIServices
 
                 if (apiResponseData.IsSuccess)
                 {
-                    if (apiResponseData.IsSuccess)
+                    var deserializer = new XmlSerializer(typeof(ExRateResponseModelXML.Envelope));
+                    using (var reader = new StringReader(apiResponseData.Response))
                     {
-                        var deserializer = new XmlSerializer(typeof(ExRateResponseModelXML.Envelope));
-                        using (var reader = new StringReader(apiResponseData.Response))
-                        {
-                            var responseModel = (ExRateResponseModelXML.Envelope)deserializer.Deserialize(reader);
-                            response.IsSuccess = true;
-                            response.GetEXRateResult = responseModel.Body?.GetEXRateResponse?.GetEXRateResult;
-                        }
+                        var responseModel = (ExRateResponseModelXML.Envelope)deserializer.Deserialize(reader);
+                        response.IsSuccess = true;
+                        response.GetEXRateResult = responseModel.Body?.GetEXRateResponse?.GetEXRateResult;
                     }
-
                 }
+
+
                 return response;
             }
             catch (Exception ex)
@@ -609,22 +591,15 @@ namespace LaxmiSunriseBank.API.APIServices
 
                 if (apiResponseData.IsSuccess)
                 {
-                    if (apiResponseData.IsSuccess)
+                    var deserializer = new XmlSerializer(typeof(ReconcileReportResponseModelXML.Envelope));
+                    using (var reader = new StringReader(apiResponseData.Response))
                     {
-                        var deserializer = new XmlSerializer(typeof(ReconcileReportResponseModelXML.Envelope));
-                        using (var reader = new StringReader(apiResponseData.Response))
-                        {
-                            var responseModel = (ReconcileReportResponseModelXML.Envelope)deserializer.Deserialize(reader);
-                            response.IsSuccess = true;
-                            response.ReturnTransReport = responseModel.Body?.ReconcileReportResponse?.ReconcileReportResult?.ReturnTransReport;
-                        }
-
-                        //var responseModel = _mapper.Map<List<BankListResponseModel>>(apiResponseData?.ResponseData?.Body?.GetBankListResponse?.GetBankListResult?.Return_BANKLIST);
-                        //response.IsSuccess = true;
-                        //response.BankList = responseModel;
+                        var responseModel = (ReconcileReportResponseModelXML.Envelope)deserializer.Deserialize(reader);
+                        response.IsSuccess = true;
+                        response.ReturnTransReport = responseModel.Body?.ReconcileReportResponse?.ReconcileReportResult?.ReturnTransReport;
                     }
-
                 }
+
                 return response;
             }
             catch (Exception ex)
@@ -671,18 +646,16 @@ namespace LaxmiSunriseBank.API.APIServices
 
                 if (apiResponseData.IsSuccess)
                 {
-                    if (apiResponseData.IsSuccess)
+                    var deserializer = new XmlSerializer(typeof(SendTransactionResponseXMLModel.Envelope));
+                    using (var reader = new StringReader(apiResponseData.Response))
                     {
-                        var deserializer = new XmlSerializer(typeof(SendTransactionResponseXMLModel.Envelope));
-                        using (var reader = new StringReader(apiResponseData.Response))
-                        {
-                            var responseModel = (SendTransactionResponseXMLModel.Envelope)deserializer.Deserialize(reader);
-                            response.IsSuccess = true;
-                            response.TransactionDetails = responseModel.Body?.SendTransactionResponse?.TransactionDetails;
-                        }
+                        var responseModel = (SendTransactionResponseXMLModel.Envelope)deserializer.Deserialize(reader);
+                        response.IsSuccess = true;
+                        response.TransactionDetails = responseModel.Body?.SendTransactionResponse?.TransactionDetails;
                     }
-
                 }
+
+
                 return response;
             }
             catch (Exception ex)
