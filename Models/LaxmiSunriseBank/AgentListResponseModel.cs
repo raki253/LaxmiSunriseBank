@@ -13,39 +13,19 @@ namespace LaxmiSunriseBank.Models.LaxmiSunriseBank
         public string? URL { get; set; }
         public List<ReturnAgentList> AgentList { get; set; } = new List<ReturnAgentList>();
     }
-    public class AgentListResponseModel : SourceResponse
-    {
-        public string? Code { get; set; }
-
-        public string? AgentSessionId { get; set; }
-
-        public string? Message { get; set; }
-
-        public string? LocationId { get; set; }
-
-        public string? Agent { get; set; }
-
-        public string? Branch { get; set; }
-
-        public string? Address { get; set; }
-
-        public string? City { get; set; }
-
-        public string? Currency { get; set; }
-    }
 
     public class AgentListResponseModelXML
     {
         [XmlRoot(ElementName = "Envelope", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
         public class Envelope
         {
-            [XmlElement(ElementName = "Body", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
+            [XmlElement(ElementName = "Body")]
             public Body? Body { get; set; }
         }
 
         public class Body
         {
-            [XmlElement(ElementName = "GetAgentListResponse", Namespace = "Web Services")]
+            [XmlElement(ElementName = "GetAgentListResponse", Namespace = "ClientWebService")]
             public GetAgentListResponse? GetAgentListResponse { get; set; }
         }
 

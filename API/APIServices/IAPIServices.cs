@@ -23,12 +23,15 @@ namespace LaxmiSunriseBank.API.APIServices
 
         public Task<SendTransactionResponseModel> SendTransactionRequest(SendTransactionRequestModel sendTransactionRequestModel);
 
+        //Job
         public Task<AuthorizedConfirmedResponseModel> AuthorisedConfirmRequest(AuthorizedConfirmedRequestModel authorizedConfirmedRequestModel);
 
         public Task<CancelTransactionResponseModel> CancelTransaction(CancelTransactionRequestModel cancelTransactionRequestModel);
 
+        //Not yet confirm
         public Task<ReconcileReportResponseModel> ReconcileReport(ReconcileReportRequestModel reconcileReportRequestModel);
 
+        //Job both public
         public Task<QueryTXNStatusResponseModel> QueryTXNStatus(QueryTXNStatusRequestModel queryTXNStatusRequestModel);
 
     }
